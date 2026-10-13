@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Live Bybit P2P Naira Desk</title>
+    <title>B99 Trading X | Live P2P Naira Desk</title>
     <style>
         /* Zero external assets. Pure standard CSS optimized for low-bandwidth mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -119,7 +119,7 @@
 
     <div class="container">
         <h1>Live P2P Naira Desk</h1>
-        <p class="desc">Real-time Bybit P2P live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
+        <p class="desc">Real-time B99 Trading X live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
 
         <div class="widget">
             <form onsubmit="sendToWhatsApp(event)">
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="banner">
-                    <span class="banner-lbl">Bybit P2P Live Offer:</span>
+                    <span class="banner-lbl">B99 Trading X Live Offer:</span>
                     <span id="rateDisplay" class="banner-val">0.00</span>
                 </div>
 
@@ -174,12 +174,12 @@
         // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
         const MY_MANUAL_RATES = {
             BTC: {
-                buy: 111965658,  // Change what you charge users when they BUY Bitcoin from you
-                sell: 110500000  // Change what you pay users when they SELL Bitcoin to you
+                buy: 111965658,  // What you charge users when they BUY Bitcoin from you
+                sell: 110500000  // What you pay users when they SELL Bitcoin to you
             },
             USDT: {
-                buy: 1365,       // Change what you charge users when they BUY USDT from you
-                sell: 1345       // Change what you pay users when they SELL USDT to you
+                buy: 1365,       // What you charge users when they BUY USDT from you
+                sell: 1345       // What you pay users when they SELL USDT to you
             }
         };
 
@@ -208,24 +208,7 @@
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
             const displayTradeType = tradeType.toUpperCase();
 
-            if(!cryptoAmount || cryptoAmount <= 0) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            // Message layout reflects your selected operational rates
-            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
-                            `*Asset:* ${cryptoType}%0A` +
-                            `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
-                            `*Bybit P2P Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
-                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
-                            `Please attend to my trade request right away.`;
-
-            window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
-        }
-
-        // Initialize display instantly on boot
-        window.onload = () => { 
+            if(!cryptoAmount || cryptoAmount  { 
             calculateTrade(); 
         };
     </script>
