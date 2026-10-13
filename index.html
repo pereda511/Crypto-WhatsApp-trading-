@@ -174,24 +174,21 @@
         // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
         const MY_MANUAL_RATES = {
             BTC: {
-                buy: 1400,  // What you charge users when they BUY Bitcoin from you
-                sell: 1345  // What you pay users when they SELL Bitcoin to you
+                buy: 1390,  // What you charge users when they BUY Bitcoin from you
+                sell: 1350  // What you pay users when they SELL Bitcoin to you
             },
             USDT: {
-                buy: 1400,       // What you charge users when they BUY USDT from you
-                sell: 1345       // What you pay users when they SELL USDT to you
+                buy: 1370,       // What you charge users when they BUY USDT from you
+                sell: 1350       // What you pay users when they SELL USDT to you
             }
         };
 
         function calculateTrade() {
-            const tradeType = document.getElementById('tradeType').value; // 'buy' or 'sell'
-            const cryptoType = document.getElementById('cryptoType').value; // 'BTC' or 'USDT'
+            const tradeType = document.getElementById('tradeType').value; 
+            const cryptoType = document.getElementById('cryptoType').value; 
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            // Fetch your designated manual configuration rate instantly
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
-            
-            // Multiply directly against your chosen parameters
             const totalNairaEst = cryptoAmount * currentP2PPrice;
             
             document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {maximumFractionDigits: 2});
@@ -208,7 +205,22 @@
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
             const displayTradeType = tradeType.toUpperCase();
 
-            if(!cryptoAmount || cryptoAmount  { 
+            if(!cryptoAmount || cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
+                            `*Asset:* ${cryptoType}%0A` +
+                            `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
+                            `*B99 Trading X Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
+                            `Please attend to my trade request right away.`;
+
+            window.open(`https://wa.me/{WHATSAPP_NUMBER}?text=${message}`, '_blank');
+        }
+
+        window.onload = () => { 
             calculateTrade(); 
         };
     </script>
