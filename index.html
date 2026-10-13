@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Live P2P Naira Desk</title>
+    <title>B99 Trading X | Naira Settlement Desk</title>
     <style>
         /* Zero external assets. Pure standard CSS optimized for low-bandwidth mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -98,6 +98,8 @@
             font-weight: bold;
             cursor: pointer;
             text-align: center;
+            white-space: normal;
+            word-wrap: break-word;
         }
         .btn:hover { background-color: #128c7e; }
         footer {
@@ -118,52 +120,52 @@
     </header>
 
     <div class="container">
-        <h1>Live P2P Naira Desk</h1>
-        <p class="desc">Real-time B99 Trading X live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
+        <h1>Naira Settlement Desk</h1>
+        <p class="desc">B99 Trading X over-the-counter order request calculator. Highly optimized, communication routing framework.</p>
 
         <div class="widget">
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
-                    <label>Transaction Type</label>
+                    <label>Requested Transaction Action</label>
                     <select id="tradeType" onchange="calculateTrade()">
-                        <option value="sell">Sell Crypto (Receive Naira Transfer)</option>
-                        <option value="buy">Buy Crypto (Pay via Naira)</option>
+                        <option value="sell">Sell Asset (Request Local Naira Settlement)</option>
+                        <option value="buy">Buy Asset (Provide Local Naira Settlement)</option>
                     </select>
                 </div>
 
                 <div class="row form-group">
                     <div class="w-33">
-                        <label>Asset</label>
+                        <label>Asset Unit</label>
                         <select id="cryptoType" onchange="calculateTrade()">
-                            <option value="BTC">BTC</option>
-                            <option value="USDT">USDT</option>
+                            <option value="BC">BC</option>
+                            <option value="Tether">Tether</option>
                         </select>
                     </div>
                     <div class="w-66">
-                        <label>Amount</label>
+                        <label>Requested Volume</label>
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
                 </div>
 
                 <div class="banner">
-                    <span class="banner-lbl">B99 Trading X Live Offer:</span>
+                    <span class="banner-lbl">B99 Trading X Current Value:</span>
                     <span id="rateDisplay" class="banner-val">0.00</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
-                    <label>Estimated Naira Value</label>
+                    <label>Estimated Value Manifest</label>
                     <div class="crypto-box">
                         <span class="curr-sym">₦</span>
                         <input id="fiatAmount" type="text" readonly class="read-box">
                     </div>
                 </div>
 
-                <button type="submit" class="btn">Open WhatsApp Trade Link</button>
+                <button type="submit" class="btn">Talk to management via this link</button>
             </form>
         </div>
 
         <footer>
-            <p>&copy; 2026 B99 Trading X. Optimized for ultra-low network performance bandwidth.</p>
+            <p>&copy; 2026 B99 Trading X. Formatted strictly as an informational peer-to-peer data layout.</p>
         </footer>
     </div>
 
@@ -171,15 +173,15 @@
         // TARGET WHATSAPP PROTOCOL LINK
         const WHATSAPP_NUMBER = "2348100812113"; 
 
-        // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
+        // 🛠️ ADMIN CONTROL PANEL: Input your manually set rates per Dollar (\$) here
         const MY_MANUAL_RATES = {
-            BTC: {
-                buy: 1390,  // What you charge users when they BUY Bitcoin from you
-                sell: 1350  // What you pay users when they SELL Bitcoin to you
+            BC: {
+                usdSpotPrice: 64200,      
+                nairaPerDollar: 1350      
             },
-            USDT: {
-                buy: 1370,       // What you charge users when they BUY USDT from you
-                sell: 1350       // What you pay users when they SELL USDT to you
+            Tether: {
+                usdSpotPrice: 1,          
+                nairaPerDollar: 1350      
             }
         };
 
@@ -188,7 +190,10 @@
             const cryptoType = document.getElementById('cryptoType').value; 
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
+            const spotUSD = MY_MANUAL_RATES[cryptoType].usdSpotPrice;
+            const exchangeRate = MY_MANUAL_RATES[cryptoType].nairaPerDollar;
+            
+            const currentP2PPrice = spotUSD * exchangeRate;
             const totalNairaEst = cryptoAmount * currentP2PPrice;
             
             document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {maximumFractionDigits: 2});
@@ -202,7 +207,9 @@
             const cryptoAmount = document.getElementById('cryptoAmount').value;
             const fiatAmount = document.getElementById('fiatAmount').value;
             
-            const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
+            const spotUSD = MY_MANUAL_RATES[cryptoType].usdSpotPrice;
+            const exchangeRate = MY_MANUAL_RATES[cryptoType].nairaPerDollar;
+            const currentP2PPrice = spotUSD * exchangeRate;
             const displayTradeType = tradeType.toUpperCase();
 
             if(!cryptoAmount || cryptoAmount <= 0) {
@@ -210,14 +217,14 @@
                 return;
             }
 
-            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
+            const message = `Hello, I want to submit a *${displayTradeType}* order request on B99 Trading X.%0A%0A` +
                             `*Asset:* ${cryptoType}%0A` +
                             `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
-                            `*B99 Trading X Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
-                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
-                            `Please attend to my trade request right away.`;
+                            `*Desk Valuation Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                            `*Total Manifest Value:* ₦${fiatAmount}%0A%0A` +
+                            `Please attend to my communications request right away.`;
 
-            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
+            window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
         }
 
         window.onload = () => { 
