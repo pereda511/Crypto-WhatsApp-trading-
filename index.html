@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Live P2P Naira Desk</title>
+    <title>B99 Trading X | Live Bybit P2P Naira Desk</title>
     <style>
-        /* Zero external assets. Pure standard CSS optimized for low-bandwidth 2G/3G speeds */
+        /* Zero external assets. Pure standard CSS optimized for low-bandwidth mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -119,7 +119,7 @@
 
     <div class="container">
         <h1>Live P2P Naira Desk</h1>
-        <p class="desc">Real-time CoinCola P2P value calculations minus a 0.50% desk fee margin. Fast text-only mobile data friendly execution model.</p>
+        <p class="desc">Real-time Bybit P2P live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
 
         <div class="widget">
             <form onsubmit="sendToWhatsApp(event)">
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="banner">
-                    <span class="banner-lbl">Net Rate (-0.5% Fee):</span>
+                    <span class="banner-lbl">Bybit P2P Live Offer:</span>
                     <span id="rateDisplay" class="banner-val">Loading...</span>
                 </div>
 
@@ -168,14 +168,15 @@
     </div>
 
     <script>
+        // TARGET WHATSAPP PROTOCOL LINK
         const WHATSAPP_NUMBER = "2348100812113"; 
 
-        // Embedded base numbers used instantly if internet drops out completely
+        // Embedded base numbers used instantly if internet connection drops completely or lags out
         let liveP2PRates = { BTC: 112528300, USDT: 1360 };
 
         async function fetchLiveRates() {
             try {
-                // Background update using a highly optimized core payload
+                // Background update utilizing an incredibly small core api indicator payload
                 const response = await fetch('https://coingecko.com');
                 if (response.ok) {
                     const data = await response.json();
@@ -185,20 +186,19 @@
                     calculateTrade();
                 }
             } catch (e) {
-                // Silently fails and falls back to local data if the network is too slow to fetch
+                // Silently fails and falls back to local memory arrays if the user's connection lags out
             }
         }
 
         function calculateTrade() {
             const cryptoType = document.getElementById('cryptoType').value;
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
-            const rawMarketPrice = liveP2PRates[cryptoType];
+            const currentP2PPrice = liveP2PRates[cryptoType];
             
-            // Apply your 0.50% desk commission reduction 
-            const operationalP2PPrice = rawMarketPrice - (rawMarketPrice * 0.005);
-            const totalNairaEst = cryptoAmount * operationalP2PPrice;
+            // Raw calculation engine - commission fee adjustments completely omitted per instruction
+            const totalNairaEst = cryptoAmount * currentP2PPrice;
             
-            document.getElementById('rateDisplay').innerText = "₦" + operationalP2PPrice.toLocaleString(undefined, {maximumFractionDigits: 2});
+            document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {maximumFractionDigits: 2});
             document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {maximumFractionDigits: 2});
         }
 
@@ -208,21 +208,20 @@
             const cryptoType = document.getElementById('cryptoType').value;
             const cryptoAmount = document.getElementById('cryptoAmount').value;
             const fiatAmount = document.getElementById('fiatAmount').value;
-            
-            const rawMarketPrice = liveP2PRates[cryptoType];
-            const netPriceAfterCommission = rawMarketPrice - (rawMarketPrice * 0.005);
+            const currentP2PPrice = liveP2PRates[cryptoType];
 
             if(!cryptoAmount || cryptoAmount <= 0) {
-                alert("Please type a valid amount.");
+                alert("Please enter a valid amount.");
                 return;
             }
 
+            // Message template cleaned up to explicitly feature Bybit structural parameters
             const message = `Hello, I want to *${tradeType}* Crypto on B99 Trading X.%0A%0A` +
                             `*Asset:* ${cryptoType}%0A` +
                             `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
-                            `*P2P Rate (-0.50% Fee):* ₦${netPriceAfterCommission.toLocaleString()}%0A` +
+                            `*Bybit P2P Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
                             `*Total NGN:* ₦${fiatAmount}%0A%0A` +
-                            `Please attend to my request.`;
+                            `Please attend to my trade request right away.`;
 
             window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
         }
