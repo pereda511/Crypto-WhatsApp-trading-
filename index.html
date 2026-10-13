@@ -87,6 +87,11 @@
             font-family: monospace;
             background-color: rgba(11,15,25,0.5);
         }
+        .payout-section {
+            border-top: 1px dashed #1f2937;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
         .btn {
             width: 100%;
             background-color: #25d366;
@@ -125,22 +130,22 @@
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label>Transaction Type</label>
-                    <select id="tradeType" onchange="calculateTrade()">
-                        <option value="sell">Sell Crypto (Receive Naira Transfer)</option>
-                        <option value="buy">Buy Crypto (Pay via Naira)</option>
+                    <select id="tradeType" onchange="togglePayoutFields(); calculateTrade();">
+                        <option value="sell">Sell (Receive Naira Transfer)</option>
+                        <option value="buy">Buy (Pay via Naira)</option>
                     </select>
                 </div>
 
                 <div class="row form-group">
                     <div class="w-33">
-                        <label>Asset</label>
+                        <label>Item</label>
                         <select id="cryptoType" onchange="calculateTrade()">
-                            <option value="BTC">BTC</option>
-                            <option value="USDT">USDT</option>
+                            <option value="BC">BC</option>
+                            <option value="Tether">Tether</option>
                         </select>
                     </div>
                     <div class="w-66">
-                        <label>Amount</label>
+                        <label>Units</label>
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
                 </div>
@@ -155,6 +160,22 @@
                     <div class="crypto-box">
                         <span class="curr-sym">₦</span>
                         <input id="fiatAmount" type="text" readonly class="read-box">
+                    </div>
+                </div>
+
+                <!-- DYNAMIC BANK DETAILS FOR SELLING CUSTOMERS -->
+                <div id="payoutSection" class="payout-section">
+                    <div class="form-group">
+                        <label>Your Bank Name</label>
+                        <input id="bankName" type="text" placeholder="e.g., GTBank, Access Bank">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Account Number</label>
+                        <input id="accNumber" type="number" placeholder="10-digit NUBAN account number">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Account Name</label>
+                        <input id="accName" type="text" placeholder="Full name on your bank account">
                     </div>
                 </div>
 
@@ -173,15 +194,27 @@
 
         // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
         const MY_MANUAL_RATES = {
-            BTC: {
-                buy: 1390,  // What you charge users when they BUY Bitcoin from you
-                sell: 1350  // What you pay users when they SELL Bitcoin to you
+            BC: {
+                buy: 1390,  // What you charge users when they BUY BC from you
+                sell: 1350  // What you pay users when they SELL BC to you
             },
-            USDT: {
-                buy: 1370,       // What you charge users when they BUY USDT from you
-                sell: 1350       // What you pay users when they SELL USDT to you
+            Tether: {
+                buy: 1370,  // What you charge users when they BUY Tether from you
+                sell: 1350  // What you pay users when they SELL Tether to you
             }
         };
+
+        function togglePayoutFields() {
+            const tradeType = document.getElementById('tradeType').value;
+            const payoutSection = document.getElementById('payoutSection');
+            
+            // Display bank collection fields only if selling
+            if (tradeType === 'sell') {
+                payoutSection.style.display = 'block';
+            } else {
+                payoutSection.style.display = 'none';
+            }
+        }
 
         function calculateTrade() {
             const tradeType = document.getElementById('tradeType').value; 
@@ -210,19 +243,14 @@
                 return;
             }
 
-            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
-                            `*Asset:* ${cryptoType}%0A` +
-                            `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
-                            `*B99 Trading X Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
-                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
-                            `Please attend to my trade request right away.`;
+            // Standard order message details
+            let message = `Hello, I want to *${displayTradeType}* on B99 Trading X.%0A%0A` +
+                          `*Item:* ${cryptoType}%0A` +
+                          `*Units:* ${cryptoAmount} ${cryptoType}%0A` +
+                          `*Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                          `*Total Estimated Value:* ₦${fiatAmount}%0A`;
 
-            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
-        }
-
-        window.onload = () => { 
-            calculateTrade(); 
-        };
-    </script>
-</body>
-</html>
+            // If transaction is SELL, validate and append banking info
+            if (tradeType === 'sell') {
+                const bankName = document.getElementById('bankName').value.trim();
+                const accNumber = document.getElementById('accNumber').value.trim();
