@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B99 Trading X | Naira Settlement Desk</title>
     <style>
-        /* Frameworkless Layout. Optimized for ultra-low network performance speeds */
+        /* Zero external assets. Pure standard CSS optimized for low-bandwidth 2G/3G speeds */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -102,22 +102,22 @@
         }
         .btn:hover { background-color: #128c7e; }
         
-        /* AI Chat Box Configuration */
-        .ai-header { font-size: 16px; font-weight: bold; color: #3b82f6; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-        .ai-log { background: #0b0f19; border: 1px solid #1f2937; border-radius: 8px; height: 130px; overflow-y: auto; padding: 10px; font-size: 13px; margin-bottom: 10px; }
+        /* AI Panel Layout Configuration */
+        .ai-header { font-size: 16px; font-weight: bold; color: #3b82f6; margin-bottom: 10px; }
+        .ai-log { background: #0b0f19; border: 1px solid #1f2937; border-radius: 8px; height: 120px; overflow-y: auto; padding: 10px; font-size: 13px; margin-bottom: 10px; }
         .msg { margin-bottom: 8px; line-height: 1.3; }
         .msg.user { color: #60a5fa; text-align: right; }
         .msg.bot { color: #a7f3d0; text-align: left; }
         .ai-input-row { display: flex; gap: 5px; }
         .ai-btn { background: #3b82f6; border: none; color: white; padding: 0 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        /* Reviews Desk Configuration */
+        /* Review Desk Configuration */
         .rev-head { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #ffffff; border-bottom: 1px solid #1f2937; padding-bottom: 5px; }
         .rev-card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
         .rev-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
         .rev-name { font-weight: bold; color: #60a5fa; }
         .rev-stars { color: #fbbf24; }
-        .rev-txt { font-size: 13px; color: #d1d5db; line-height: 1.3; }
+        .rev-txt { font-size: 13px; color: #d1d5db; }
         
         footer { text-align: center; margin-top: 40px; font-size: 11px; color: #6b7280; line-height: 1.4; }
     </style>
@@ -202,7 +202,7 @@
                 </div>
             </div>
 
-            <!-- Submit New Complaint / Review Form -->
+            <!-- Review submission sub-card layout -->
             <div style="margin-top:20px; border-top:1px solid #1f2937; padding-top:15px;">
                 <label style="margin-bottom:8px;">Submit Performance Review or Complaint</label>
                 <div class="form-group"><input type="text" id="revUser" placeholder="Your Name / City"></div>
@@ -228,3 +228,4 @@
         const WHATSAPP_NUMBER = "2348100812113"; 
 
         const MY_MANUAL_RATES = {
+            BC: { usdSpotPrice: 64200, nairaPerDollar: 1350 },
