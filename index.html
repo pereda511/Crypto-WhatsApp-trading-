@@ -5,12 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B99 Trading X | Live P2P Naira Desk</title>
     <style>
-        /* Zero external assets. Optimized for low-bandwidth mobile networks */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-        }
+        /* Zero external assets. Pure standard CSS optimized for low-bandwidth mobile networks */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
             color: #f3f4f6;
@@ -32,31 +28,16 @@
             font-weight: bold;
             color: #3b82f6;
         }
-        .logo span { 
-            color: #ffffff; 
-        }
-        h1 { 
-            font-size: 28px; 
-            margin-bottom: 10px; 
-            color: #ffffff; 
-            text-align: center;
-        }
-        .desc { 
-            color: #9ca3af; 
-            font-size: 15px; 
-            margin-bottom: 25px; 
-            text-align: center; 
-            line-height: 1.4; 
-        }
+        .logo span { color: #ffffff; }
+        h1 { font-size: 28px; margin-bottom: 10px; color: #ffffff; text-align: center;}
+        .desc { color: #9ca3af; font-size: 15px; margin-bottom: 25px; text-align: center; line-height: 1.4; }
         .widget {
             background-color: #111827;
             border: 1px solid #1f2937;
             border-radius: 12px;
             padding: 20px;
         }
-        .form-group { 
-            margin-bottom: 15px; 
-        }
+        .form-group { margin-bottom: 15px; }
         label {
             display: block;
             font-size: 12px;
@@ -75,19 +56,10 @@
             font-size: 16px;
             outline: none;
         }
-        select:focus, input:focus { 
-            border-color: #3b82f6; 
-        }
-        .row { 
-            display: flex; 
-            gap: 10px; 
-        }
-        .w-33 { 
-            width: 35%; 
-        }
-        .w-66 { 
-            width: 65%; 
-        }
+        select:focus, input:focus { border-color: #3b82f6; }
+        .row { display: flex; gap: 10px; }
+        .w-33 { width: 35%; }
+        .w-66 { width: 65%; }
         .banner {
             padding: 12px;
             background: #0b0f19;
@@ -98,17 +70,9 @@
             font-size: 14px;
             margin-bottom: 15px;
         }
-        .banner-lbl { 
-            color: #9ca3af; 
-        }
-        .banner-val { 
-            font-weight: bold; 
-            color: #60a5fa; 
-            font-family: monospace; 
-        }
-        .crypto-box { 
-            position: relative; 
-        }
+        .banner-lbl { color: #9ca3af; }
+        .banner-val { font-weight: bold; color: #60a5fa; font-family: monospace; }
+        .crypto-box { position: relative; }
         .curr-sym {
             position: absolute;
             left: 12px;
@@ -123,11 +87,6 @@
             font-family: monospace;
             background-color: rgba(11,15,25,0.5);
         }
-        .payout-section {
-            border-top: 1px dashed #1f2937;
-            margin-top: 20px;
-            padding-top: 15px;
-        }
         .btn {
             width: 100%;
             background-color: #25d366;
@@ -140,9 +99,7 @@
             cursor: pointer;
             text-align: center;
         }
-        .btn:hover { 
-            background-color: #128c7e; 
-        }
+        .btn:hover { background-color: #128c7e; }
         footer {
             text-align: center;
             margin-top: 40px;
@@ -168,29 +125,29 @@
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label>Transaction Type</label>
-                    <select id="tradeType" onchange="togglePayoutFields(); calculateTrade();">
-                        <option value="sell">Sell (Receive Naira Transfer)</option>
-                        <option value="buy">Buy (Pay via Naira)</option>
+                    <select id="tradeType" onchange="calculateTrade()">
+                        <option value="sell">Sell Crypto (Receive Naira Transfer)</option>
+                        <option value="buy">Buy Crypto (Pay via Naira)</option>
                     </select>
                 </div>
 
                 <div class="row form-group">
                     <div class="w-33">
-                        <label>Item</label>
+                        <label>Asset</label>
                         <select id="cryptoType" onchange="calculateTrade()">
-                            <option value="BC">BC</option>
-                            <option value="Tether">Tether</option>
+                            <option value="BTC">BTC</option>
+                            <option value="USDT">USDT</option>
                         </select>
                     </div>
                     <div class="w-66">
-                        <label>Units</label>
+                        <label>Amount</label>
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
                 </div>
 
                 <div class="banner">
                     <span class="banner-lbl">B99 Trading X Live Offer:</span>
-                    <span id="rateDisplay" class="banner-val">₦0.00</span>
+                    <span id="rateDisplay" class="banner-val">0.00</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
@@ -198,22 +155,6 @@
                     <div class="crypto-box">
                         <span class="curr-sym">₦</span>
                         <input id="fiatAmount" type="text" readonly class="read-box">
-                    </div>
-                </div>
-
-                <!-- DYNAMIC BANK DETAILS -->
-                <div id="payoutSection" class="payout-section">
-                    <div class="form-group">
-                        <label>Your Bank Name</label>
-                        <input id="bankName" type="text" placeholder="e.g., GTBank, Access Bank">
-                    </div>
-                    <div class="form-group">
-                        <label>Your Account Number</label>
-                        <input id="accNumber" type="number" placeholder="10-digit NUBAN account number">
-                    </div>
-                    <div class="form-group">
-                        <label>Your Account Name</label>
-                        <input id="accName" type="text" placeholder="Full name on your bank account">
                     </div>
                 </div>
 
@@ -227,26 +168,20 @@
     </div>
 
     <script>
-        // CONFIGURATION PARAMETERS
+        // TARGET WHATSAPP PROTOCOL LINK
         const WHATSAPP_NUMBER = "2348100812113"; 
 
+        // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
         const MY_MANUAL_RATES = {
-            BC: {
-                buy: 1390,  
-                sell: 1350  
+            BTC: {
+                buy: 1390,  // What you charge users when they BUY Bitcoin from you
+                sell: 1350  // What you pay users when they SELL Bitcoin to you
             },
-            Tether: {
-                buy: 1370,  
-                sell: 1350  
+            USDT: {
+                buy: 1370,       // What you charge users when they BUY USDT from you
+                sell: 1350       // What you pay users when they SELL USDT to you
             }
         };
-
-        // UI DISPLAY CONTROLS
-        function togglePayoutFields() {
-            const tradeType = document.getElementById('tradeType').value;
-            const payoutSection = document.getElementById('payoutSection');
-            payoutSection.style.display = (tradeType === 'sell') ? 'block' : 'none';
-        }
 
         function calculateTrade() {
             const tradeType = document.getElementById('tradeType').value; 
@@ -260,7 +195,6 @@
             document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {maximumFractionDigits: 2});
         }
 
-        // FORM SUBMISSION PROCESSING
         function sendToWhatsApp(event) {
             event.preventDefault();
             const tradeType = document.getElementById('tradeType').value;
@@ -271,19 +205,24 @@
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
             const displayTradeType = tradeType.toUpperCase();
 
-            if (!cryptoAmount || cryptoAmount <= 0) {
-                alert("Please enter a valid unit value.");
+            if(!cryptoAmount || cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
                 return;
             }
 
-            let message = `Hello, I want to *${displayTradeType}* on B99 Trading X.%0A%0A` +
-                          `*Item:* ${cryptoType}%0A` +
-                          `*Units:* ${cryptoAmount} ${cryptoType}%0A` +
-                          `*Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
-                          `*Total Estimated Value:* ₦${fiatAmount}%0A`;
+            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
+                            `*Asset:* ${cryptoType}%0A` +
+                            `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
+                            `*B99 Trading X Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
+                            `Please attend to my trade request right away.`;
 
-            if (tradeType === 'sell') {
-                const bankName = document.getElementById('bankName').value.trim();
-                const accNumber = document.getElementById('accNumber').value.trim();
-                const accName = document.getElementById('accName').value.trim();
+            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
+        }
 
+        window.onload = () => { 
+            calculateTrade(); 
+        };
+    </script>
+</body>
+</html>
