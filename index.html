@@ -14,19 +14,19 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #022c22;
-            color: #ecfdf5;
+            background-color: #0b0f19; /* Neutral standard premium dark web background */
+            color: #f3f4f6;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
         header {
-            border-b: 1px solid #064e3b;
-            background-color: rgba(2, 44, 34, 0.85);
+            border-bottom: 1px solid #1f2937;
+            background-color: rgba(11, 15, 25, 0.85);
             backdrop-filter: blur(8px);
             position: sticky;
             top: 0;
-            get-index: 50;
+            z-index: 50;
         }
         .nav-container {
             max-width: 1200px;
@@ -43,7 +43,7 @@
             gap: 8px;
             font-size: 20px;
             font-weight: 700;
-            color: #34d399;
+            color: #3b82f6; /* Premium standard accent blue */
             text-decoration: none;
         }
         .logo-flex span { color: #ffffff; }
@@ -62,15 +62,15 @@
             }
         }
         .tag-badge {
-            background-color: rgba(52, 211, 153, 0.1);
-            color: #34d399;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
             font-size: 12px;
             padding: 4px 12px;
             border-radius: 9999px;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            border: 1px solid rgba(52, 211, 153, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             display: inline-block;
         }
         h1 {
@@ -82,12 +82,12 @@
         }
         @media (min-width: 768px) { h1 { font-size: 56px; } }
         .text-gradient {
-            background: linear-gradient(to right, #34d399, #2dd4bf);
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero-desc {
-            color: rgba(236, 253, 245, 0.7);
+            color: #9ca3af;
             margin-top: 24px;
             font-size: 18px;
         }
@@ -95,7 +95,7 @@
             display: flex;
             gap: 24px;
             margin-top: 32px;
-            border-top: 1px solid rgba(6, 78, 59, 0.6);
+            border-top: 1px solid #1f2937;
             padding-top: 24px;
         }
         .asset-pill {
@@ -104,15 +104,14 @@
             gap: 12px;
         }
         .asset-pill i { font-size: 30px; }
-        .label-group p:first-child { font-size: 12px; color: rgba(52, 211, 153, 0.5); }
+        .label-group p:first-child { font-size: 12px; color: #6b7280; }
         .label-group p:last-child { font-size: 14px; font-weight: 700; color: #ffffff; }
         .widget-box {
-            background-color: rgba(6, 78, 59, 0.4);
-            border: 1px solid rgba(6, 78, 59, 0.6);
+            background-color: #111827;
+            border: 1px solid #1f2937;
             border-radius: 16px;
             padding: 24px;
             position: relative;
-            backdrop-filter: blur(4px);
         }
         @media (min-width: 768px) { .widget-box { padding: 32px; } }
         .widget-title {
@@ -131,13 +130,13 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #a7f3d0;
+            color: #9ca3af;
             margin-bottom: 8px;
         }
         select, input[type="number"], input[type="text"] {
             width: 100%;
-            background-color: #022c22;
-            border: 1px solid #064e3b;
+            background-color: #0b0f19;
+            border: 1px solid #1f2937;
             border-radius: 12px;
             padding: 12px 16px;
             color: #ffffff;
@@ -145,7 +144,7 @@
             outline: none;
             transition: border-color 0.2s;
         }
-        select:focus, input:focus { border-color: #34d399; }
+        select:focus, input:focus { border-color: #3b82f6; }
         .grid-split {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -153,29 +152,29 @@
         }
         .rate-banner {
             padding: 16px;
-            background-color: #022c22;
+            background-color: #0b0f19;
             border-radius: 12px;
-            border: 1px solid rgba(6, 78, 59, 0.6);
+            border: 1px solid #1f2937;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        .rate-lbl { font-size: 12px; color: rgba(167, 243, 208, 0.7); font-weight: 500; }
-        .rate-val { font-family: monospace; font-weight: 700; color: #34d399; font-size: 14px; }
-        .input-relative { position: relative; }
+        .rate-lbl { font-size: 12px; color: #9ca3af; font-weight: 500; }
+        .rate-val { font-family: monospace; font-weight: 700; color: #60a5fa; font-size: 14px; }
+        .input-relative { position: relative; margin-bottom: 24px; }
         .naira-symbol {
             position: absolute;
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(167, 243, 208, 0.8);
+            color: #9ca3af;
             font-weight: 700;
         }
         .input-read {
             padding-left: 32px !important;
-            color: #2dd4bf !important;
-            background-color: rgba(2, 44, 34, 0.6) !important;
+            color: #34d399 !important;
+            background-color: rgba(11, 15, 25, 0.6) !important;
             cursor: not-allowed;
             font-family: monospace;
             font-weight: 700;
@@ -183,8 +182,8 @@
         }
         .submit-btn {
             width: 100%;
-            background-color: #0d9488;
-            color: #022c22;
+            background-color: #25d366; /* Standard official WhatsApp brand green color */
+            color: #ffffff;
             border: none;
             border-radius: 12px;
             padding: 16px;
@@ -197,15 +196,15 @@
             gap: 12px;
             transition: background-color 0.2s;
         }
-        .submit-btn:hover { background-color: #14b8a6; }
+        .submit-btn:hover { background-color: #128c7e; }
         footer {
-            border-top: 1px solid rgba(6, 78, 59, 0.4);
+            border-top: 1px solid #1f2937;
             margin-top: 80px;
-            background-color: rgba(2, 44, 34, 0.4);
+            background-color: rgba(17, 24, 39, 0.4);
             padding: 32px 16px;
             text-align: center;
             font-size: 12px;
-            color: rgba(52, 211, 153, 0.4);
+            color: #6b7280;
         }
         footer p + p { margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
     </style>
@@ -250,7 +249,6 @@
             const rawMarketPrice = liveP2PRates[cryptoType];
             
             // MATHEMATICAL REQUIREMENT: Deduct absolute 0.50% operational desk fee margin from execution price
-            // Equation structure: Final Value = Market price - (Market price * 0.005)
             const feeDeductionAmount = rawMarketPrice * 0.005;
             const operationalP2PPrice = rawMarketPrice - feeDeductionAmount;
             
@@ -269,3 +267,6 @@
             const cryptoAmount = document.getElementById('cryptoAmount').value;
             const fiatAmount = document.getElementById('fiatAmount').value;
             
+            const rawMarketPrice = liveP2PRates[cryptoType];
+            const netPriceAfterCommission = rawMarketPrice - (rawMarketPrice * 0.005);
+
