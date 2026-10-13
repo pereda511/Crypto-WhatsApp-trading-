@@ -199,6 +199,7 @@
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label>Transaction Type</label>
+                    <!-- Trigger complete calculations on change of order path direction -->
                     <select id="tradeType" onchange="togglePayoutFields(); calculateTrade();">
                         <option value="sell">Sell Asset (Receive Naira Transfer)</option>
                         <option value="buy">Buy Asset (Pay via Naira)</option>
@@ -215,7 +216,6 @@
                     </div>
                     <div class="w-66">
                         <label>Amount</label>
-                        <!-- ADDED: oninput loop listener configuration for instantaneous updates -->
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
                 </div>
@@ -285,13 +285,13 @@
             const cryptoType = document.getElementById('cryptoType').value; 
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
+            // This safely pulls the live rate depending directly on selection choices
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
             const totalNairaEst = cryptoAmount * currentP2PPrice;
             
+            // Updates both numbers simultaneously
             document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
         // FORM SUBMISSION PROCESSING
-        function sendToWhatsApp(event) {
-            event.preventDefault();
