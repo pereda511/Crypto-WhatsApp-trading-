@@ -88,6 +88,17 @@
             font-family: monospace;
             background-color: rgba(11,15,25,0.5);
         }
+        .info-note {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+        .info-note strong { color: #ffffff; }
         .btn {
             width: 100%;
             background-color: #25d366;
@@ -140,15 +151,15 @@
                 <div class="form-group">
                     <label>Requested Transaction Action</label>
                     <select id="tradeType" onchange="calculateTrade()">
-                        <option value="sell">Sell Asset (Request Local Naira Settlement)</option>
-                        <option value="buy">Buy Asset (Provide Local Naira Settlement)</option>
+                        <option value="sell">Sell Asset (Receive Local Naira Transfer)</option>
+                        <option value="buy">Buy Asset (Pay via Naira Transfer)</option>
                     </select>
                 </div>
 
                 <div class="row form-group">
                     <div class="w-33">
                         <label>Asset Unit</label>
-                        <select id="cryptoType" onchange="calculateTrade()">
+                        <select id="cryptoType" onchange="updateAssetFields()">
                             <option value="BC">BC</option>
                             <option value="Tether">Tether</option>
                         </select>
@@ -159,9 +170,29 @@
                     </div>
                 </div>
 
+                <!-- Auto Wallet Address Display Field -->
+                <div class="form-group" id="walletContainer">
+                    <label id="walletLabel">B99 Trading X Transfer Destination</label>
+                    <div class="info-note" id="walletAddressNote">
+                        Loading destination...
+                    </div>
+                </div>
+
+                <!-- Dynamic Settlement Bank Input Blocks -->
+                <div class="row form-group">
+                    <div style="width: 50%;">
+                        <label>Your Bank Name</label>
+                        <input type="text" id="userBankName" placeholder="e.g. OPay, GTBank" required>
+                    </div>
+                    <div style="width: 50%;">
+                        <label>Your Account Number</label>
+                        <input type="number" id="userAccountNum" placeholder="10 Digits" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);" required>
+                    </div>
+                </div>
+
                 <div class="banner">
                     <span class="banner-lbl">B99 Trading X Live Offer:</span>
-                    <span id="rateDisplay" class="banner-val">0.00</span>
+                    <span id="rateDisplay" class="banner-val">QN1,350.00</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
@@ -189,7 +220,7 @@
         </div>
 
         <!-- Real-Time Feedback & Review Desk -->
-        <div class="widget">
+        <div class="widget" id="review">
             <div class="rev-head">⭐ Real-Time Client Reviews</div>
             
             <div style="background:#0b0f19; border:1px solid #1f2937; padding:12px; border-radius:8px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
@@ -203,29 +234,3 @@
 
             <div style="margin-top:20px; border-top:1px solid #1f2937; padding-top:15px;">
                 <label style="margin-bottom:8px;">Submit Real-Time Review or Complaint</label>
-                <div class="form-group"><input type="text" id="revUser" placeholder="Your Name / Location (e.g. John from Lagos)"></div>
-                <div class="form-group">
-                    <select id="revRating">
-                        <option value="5">★★★★★ (5 Stars - Excellent Service)</option>
-                        <option value="4">★★★★☆ (4 Stars - Good Spreads)</option>
-                        <option value="3">★★★☆☆ (3 Stars - Average Speed)</option>
-                        <option value="1">★☆☆☆☆ (1 Star - File Official Complaint)</option>
-                    </select>
-                </div>
-                <div class="form-group"><textarea id="revMsg" rows="2" placeholder="Describe your experience or log a processing complaint here..."></textarea></div>
-                <button type="button" class="btn" style="padding:10px; background-color:#3b82f6;" onclick="postRealReview()">Log to Public Board</button>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2026 B99 Trading X. Formatted strictly as an informational peer-to-peer data layout.</p>
-        </footer>
-    </div>
-
-    <script>
-        // TARGET WHATSAPP PROTOCOL LINK
-        const WHATSAPP_NUMBER = "2348100812113"; 
-
-        // 🛠️ ADMIN CONTROL PANEL: Input your manually set rates per Dollar (\$) here
-        const MY_MANUAL_RATES = {
-            BC: {
