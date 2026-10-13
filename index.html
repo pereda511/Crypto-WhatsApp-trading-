@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>b9 trade | Fast OTC Bitcoin & USDT Desk</title>
+    <title>B99 Trades coin | Instant P2P Trading Desk</title>
     <script src="https://jsdelivr.net"></script>
     <link rel="stylesheet" href="https://cloudflare.com">
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-black text-slate-100 font-sans antialiased">
 
     <script>
-        // CONFIGURATION: Replace this with your actual WhatsApp phone number (include country code, no symbols or spaces)
-        const WHATSAPP_NUMBER = "2348000000000"; 
+        // CONFIGURATION: Connected directly to your phone number
+        const WHATSAPP_NUMBER = "2348100812113"; 
 
-        // Flat Rate Multiplier: 1345 Naira per Dollar
+        // Core business exchange multiplier
         const NAIRA_RATE = 1345;
 
-        // Base USD asset rates (Updates total locally relative to \$1345 rate)
+        // Dynamic base asset rates used for calculations
         const BASE_USD_RATES = {
             BTC: { buy: 64200, sell: 63500 },
-            USDT: { buy: 1.00, sell: 1.00 } // Evaluated 1:1 at identical flat \$1345 rate
+            USDT: { buy: 1.00, sell: 1.00 }
         };
 
         function calculateTrade() {
@@ -27,15 +27,17 @@
             const cryptoType = document.getElementById('cryptoType').value;
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            // Get base USD price per token based on transaction action
+            // Get correct standard coin value based on action
             const baseUsdPrice = BASE_USD_RATES[cryptoType][tradeType];
             
-            // Derive fixed Naira cost per coin based on your flat rate requirement
+            // Evaluate price per single coin in local currency
             const nairaPerCoin = baseUsdPrice * NAIRA_RATE;
+            
+            // Multiply the input volume explicitly by the local coin rate
             const totalNairaEst = cryptoAmount * nairaPerCoin;
             
-            // UI Updates
-            document.getElementById('rateDisplay').innerText = `₦${nairaPerCoin.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / per ${cryptoType}`;
+            // Render structured values securely to the client UI
+            document.getElementById('rateDisplay').innerText = `₦${nairaPerCoin.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per ${cryptoType}`;
             document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
@@ -51,28 +53,28 @@
                 return;
             }
 
-            // Clean formatted message pushed directly to your personal WhatsApp inbox
-            const message = `Hello, I want to *${tradeType}* Crypto on b9 trade.%0A%0A` +
+            // WhatsApp manifest formatted with your absolute parameters
+            const message = `Hello, I want to *${tradeType}* Crypto on B99 Trades coin.%0A%0A` +
                             `*Asset:* ${cryptoType}%0A` +
                             `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
-                            `*Exchange Rate Limit:* ₦${NAIRA_RATE}/$%0A` +
-                            `*Total Value:* ₦${fiatAmount} NGN%0A%0A` +
+                            `*Applied Flat Rate:* ₦${NAIRA_RATE}/$%0A` +
+                            `*Total Settlement:* ₦${fiatAmount} NGN%0A%0A` +
                             `Please attend to my trade request immediately.`;
 
             const whatsappUrl = `https://wa.me{WHATSAPP_NUMBER}?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
 
-        // Initialize rates instantly upon page load
+        // Run instantly when rendering DOM elements
         window.onload = () => { calculateTrade(); };
     </script>
 
-    <!-- Header navigation -->
-    <header class="border-b border-slate-900 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+    <!-- Header navigation component -->
+    <header class="border-b border-slate-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2 font-bold text-xl text-amber-500">
-                <i class="fa-solid fa-bolt text-2xl text-amber-400"></i>
-                <span>b9 <span class="text-white">trade</span></span>
+                <i class="fa-solid fa-coins text-2xl text-amber-400"></i>
+                <span>B99 Trades <span class="text-white">coin</span></span>
             </div>
             <a href="#trade" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-lg font-semibold text-sm transition shadow-lg shadow-amber-500/20">
                 Trade Now
@@ -80,15 +82,15 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Main descriptive layout -->
     <main class="max-w-6xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
         <div>
-            <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-medium uppercase tracking-wider border border-amber-500/20">Premium OTC Settlement</span>
+            <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-medium uppercase tracking-wider border border-amber-500/20">Fast Over-The-Counter Engine</span>
             <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mt-4 leading-tight">
                 Trade BTC & USDT <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Direct to Naira Vault</span>
             </h1>
             <p class="text-slate-400 mt-6 text-lg leading-relaxed">
-                Skip complex exchange deposit protocols. Secure stable local liquidity rates valued right at <strong class="text-slate-200">₦1,345/\$</strong> via our encrypted peer-to-peer WhatsApp communication desk.
+                Skip complex exchange deposit protocols. Secure local liquidity rates valued right at <strong class="text-slate-200">₦1,345/\$</strong> via our encrypted peer-to-peer WhatsApp communication desk.
             </p>
             <div class="flex items-center gap-6 mt-8 border-t border-slate-900 pt-6">
                 <div class="flex items-center gap-3">
@@ -102,17 +104,17 @@
             </div>
         </div>
 
-        <!-- OTC Calculator Widget -->
-        <div id="trade" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+        <!-- Localized Crypto Calculator Desk -->
+        <div id="trade" class="bg-zinc-950 border border-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl"></div>
             <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <i class="fa-solidxl fa-solid fa-calculator text-amber-500"></i> Local NGN Trade Estimator
+                <i class="fa-solid fa-calculator text-amber-500"></i> Local NGN Trade Estimator
             </h2>
 
             <form onsubmit="sendToWhatsApp(event)" class="space-y-5">
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Transaction Type</label>
-                    <select id="tradeType" onchange="calculateTrade()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition font-medium">
+                    <select id="tradeType" onchange="calculateTrade()" class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition font-medium">
                         <option value="sell">Sell Crypto (Receive Naira Transfer)</option>
                         <option value="buy">Buy Crypto (Pay via Naira)</option>
                     </select>
@@ -121,18 +123,18 @@
                 <div class="grid grid-cols-3 gap-3">
                     <div class="col-span-1">
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Asset</label>
-                        <select id="cryptoType" onchange="calculateTrade()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition font-bold">
+                        <select id="cryptoType" onchange="calculateTrade()" class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition font-bold">
                             <option value="USDT">USDT</option>
                             <option value="BTC">BTC</option>
                         </select>
                     </div>
                     <div class="col-span-2">
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Crypto Volume Amount</label>
-                        <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition text-lg font-semibold">
+                        <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()" class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition text-lg font-semibold">
                     </div>
                 </div>
 
-                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/50 flex justify-between items-center">
+                <div class="p-4 bg-black rounded-xl border border-slate-900 flex justify-between items-center">
                     <span class="text-xs text-slate-400 font-medium">Fixed Rate Value:</span>
                     <span id="rateDisplay" class="text-sm font-mono font-bold text-amber-400">₦0.00</span>
                 </div>
@@ -141,11 +143,11 @@
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Estimated Value (NGN)</label>
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₦</span>
-                        <input id="fiatAmount" type="text" readonly class="w-full bg-slate-950/50 border border-slate-800/80 rounded-xl pl-8 pr-4 py-3 text-emerald-400 cursor-not-allowed text-xl font-mono font-bold">
+                        <input id="fiatAmount" type="text" readonly class="w-full bg-black/50 border border-slate-900 rounded-xl pl-8 pr-4 py-3 text-emerald-400 cursor-not-allowed text-xl font-mono font-bold">
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-900/20 transition flex items-center justify-center gap-3 cursor-pointer text-base">
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-3 cursor-pointer text-base">
                     <i class="fa-brands fa-whatsapp text-xl"></i>
                     Submit to WhatsApp Desk
                 </button>
@@ -153,10 +155,11 @@
         </div>
     </main>
 
-    <footer class="border-t border-slate-900 mt-20 bg-slate-950 py-8">
+    <!-- Structural footer alignment -->
+    <footer class="border-t border-slate-950 mt-20 bg-black py-8">
         <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-600 space-y-2">
-            <p>&copy; 2026 b9 trade OTC Desk. All rights reserved.</p>
-            <p class="max-w-2xl mx-auto">Disclaimer: Digital currency conversion involves structural market risks. All transactions are securely routed through localized p2p execution points.</p>
+            <p>&copy; 2026 B99 Trades coin OTC Desk. All rights reserved.</p>
+            <p class="max-w-2xl mx-auto">Disclaimer: Digital currency conversion involves structural market risks. All transactions are securely processed via private P2P fulfillment networks.</p>
         </div>
     </footer>
 
