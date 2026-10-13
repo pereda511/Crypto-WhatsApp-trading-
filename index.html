@@ -108,24 +108,6 @@
         .w-66 { 
             width: 65%; 
         }
-        .banner {
-            padding: 12px;
-            background: #0b0f19;
-            border: 1px solid #1f2937;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .banner-lbl { 
-            color: #9ca3af; 
-        }
-        .banner-val { 
-            font-weight: bold; 
-            color: #60a5fa; 
-            font-family: monospace; 
-        }
         .crypto-box { 
             position: relative; 
         }
@@ -199,7 +181,6 @@
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label>Transaction Type</label>
-                    <!-- Trigger complete calculations on change of order path direction -->
                     <select id="tradeType" onchange="togglePayoutFields(); calculateTrade();">
                         <option value="sell">Sell Asset (Receive Naira Transfer)</option>
                         <option value="buy">Buy Asset (Pay via Naira)</option>
@@ -218,11 +199,6 @@
                         <label>Amount</label>
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
-                </div>
-
-                <div class="banner">
-                    <span class="banner-lbl">B99 Trading X Live Offer:</span>
-                    <span id="rateDisplay" class="banner-val">₦0.00</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
@@ -285,13 +261,32 @@
             const cryptoType = document.getElementById('cryptoType').value; 
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            // This safely pulls the live rate depending directly on selection choices
             const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
             const totalNairaEst = cryptoAmount * currentP2PPrice;
             
-            // Updates both numbers simultaneously
-            document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
         // FORM SUBMISSION PROCESSING
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            const tradeType = document.getElementById('tradeType').value;
+            const cryptoType = document.getElementById('cryptoType').value;
+            const cryptoAmount = document.getElementById('cryptoAmount').value;
+            const fiatAmount = document.getElementById('fiatAmount').value;
+            
+            const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
+            const displayTradeType = tradeType.toUpperCase();
+
+            if (!cryptoAmount || cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            let message = `Hello, I want to *${displayTradeType}* on B99 Trading X.%0A%0A` +
+                          `*Asset:* ${cryptoType}%0A` +
+                          `*Amount:* ${cryptoAmount}%0A` +
+                          `*Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                          `*Estimated Naira Value:* ₦${fiatAmount}%0A`;
+
+            if (tradeType === 'sell') {
