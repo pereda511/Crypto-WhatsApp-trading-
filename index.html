@@ -54,8 +54,6 @@
             border-radius: 12px;
             padding: 20px;
         }
-        
-        /* NEW: Premium Spread Notice Banner Style */
         .info-notice {
             background-color: rgba(59, 130, 246, 0.1);
             border: 1px dashed rgba(59, 130, 246, 0.4);
@@ -76,7 +74,6 @@
             color: #60a5fa;
             font-family: monospace;
         }
-
         .form-group { 
             margin-bottom: 15px; 
         }
@@ -140,7 +137,7 @@
             font-weight: bold;
         }
         .read-box {
-            padding-left: 12px;
+            padding-left: 30px;
             color: #34d399;
             font-weight: bold;
             font-family: monospace;
@@ -188,7 +185,6 @@
         <p class="desc">Real-time B99 Trading X live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
 
         <div class="widget">
-            <!-- NEW: Live Fixed Spread Notice Board Block -->
             <div class="info-notice">
                 <div class="info-row">
                     <span>Buy Assets Desk:</span>
@@ -219,6 +215,7 @@
                     </div>
                     <div class="w-66">
                         <label>Amount</label>
+                        <!-- ADDED: oninput loop listener configuration for instantaneous updates -->
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
                     </div>
                 </div>
@@ -232,7 +229,7 @@
                     <label>Estimated Naira Value</label>
                     <div class="crypto-box">
                         <span class="curr-sym">₦</span>
-                        <input id="fiatAmount" type="text" readonly class="read-box" style="padding-left: 30px;">
+                        <input id="fiatAmount" type="text" readonly class="read-box">
                     </div>
                 </div>
 
