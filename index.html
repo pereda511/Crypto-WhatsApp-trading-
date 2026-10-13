@@ -117,7 +117,7 @@
         .rev-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
         .rev-name { font-weight: bold; color: #60a5fa; }
         .rev-stars { color: #fbbf24; }
-        .rev-txt { font-size: 13px; color: #d1d5db; }
+        .rev-txt { font-size: 13px; color: #d1d5db; line-height: 1.3; }
         
         footer { text-align: center; margin-top: 40px; font-size: 11px; color: #6b7280; line-height: 1.4; }
     </style>
@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="banner">
-                    <span class="banner-lbl">B99 Trading X Current Value:</span>
+                    <span class="banner-lbl">B99 Trading X Live Offer:</span>
                     <span id="rateDisplay" class="banner-val">0.00</span>
                 </div>
 
@@ -188,34 +188,32 @@
             </div>
         </div>
 
-        <!-- Feedback & Review Desk -->
+        <!-- Real-Time Feedback & Review Desk -->
         <div class="widget">
-            <div class="rev-head">⭐ Client Experience Reviews</div>
-            <div id="reviewsBox">
-                <div class="rev-card">
-                    <div class="rev-top"><span class="rev-name">Chidi K. (Enugu)</span><span class="rev-stars">★★★★★</span></div>
-                    <p class="rev-txt">Extremely fast Naira verification. Transferred my Tether volume and got paid instantly into my Kuda account.</p>
-                </div>
-                <div class="rev-card">
-                    <div class="rev-top"><span class="rev-name">Musa A. (Kano)</span><span class="rev-stars">★★★★★</span></div>
-                    <p class="rev-txt">Best manual spreads in Nigeria. The WhatsApp management desk response was prompt.</p>
-                </div>
+            <div class="rev-head">⭐ Real-Time Client Reviews</div>
+            
+            <div style="background:#0b0f19; border:1px solid #1f2937; padding:12px; border-radius:8px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <span style="color:#9ca3af;">Average Customer Rating:</span>
+                <span id="avgRatingDisplay" style="color:#fbbf24; font-weight:bold;">★★★★★ (5.0/5)</span>
             </div>
 
-            <!-- Review submission sub-card layout -->
+            <div id="reviewsBox" style="max-height: 250px; overflow-y: auto;">
+                <!-- Stored or default customer reviews go here -->
+            </div>
+
             <div style="margin-top:20px; border-top:1px solid #1f2937; padding-top:15px;">
-                <label style="margin-bottom:8px;">Submit Performance Review or Complaint</label>
-                <div class="form-group"><input type="text" id="revUser" placeholder="Your Name / City"></div>
+                <label style="margin-bottom:8px;">Submit Real-Time Review or Complaint</label>
+                <div class="form-group"><input type="text" id="revUser" placeholder="Your Name / Location (e.g. John from Lagos)"></div>
                 <div class="form-group">
                     <select id="revRating">
-                        <option value="5">5 Stars (Excellent Service)</option>
-                        <option value="4">4 Stars (Good Performance)</option>
-                        <option value="3">3 Stars (Average Setup)</option>
-                        <option value="1">1 Star (File Complaint Desk)</option>
+                        <option value="5">★★★★★ (5 Stars - Excellent Service)</option>
+                        <option value="4">★★★★☆ (4 Stars - Good Spreads)</option>
+                        <option value="3">★★★☆☆ (3 Stars - Average Speed)</option>
+                        <option value="1">★☆☆☆☆ (1 Star - File Official Complaint)</option>
                     </select>
                 </div>
-                <div class="form-group"><textarea id="revMsg" rows="2" placeholder="Write your review or complaint message here..."></textarea></div>
-                <button type="button" class="btn" style="padding:10px; background-color:#3b82f6;" onclick="postReview()">Submit Form Desk</button>
+                <div class="form-group"><textarea id="revMsg" rows="2" placeholder="Describe your experience or log a processing complaint here..."></textarea></div>
+                <button type="button" class="btn" style="padding:10px; background-color:#3b82f6;" onclick="postRealReview()">Log to Public Board</button>
             </div>
         </div>
 
@@ -225,7 +223,9 @@
     </div>
 
     <script>
+        // TARGET WHATSAPP PROTOCOL LINK
         const WHATSAPP_NUMBER = "2348100812113"; 
 
+        // 🛠️ ADMIN CONTROL PANEL: Input your manually set rates per Dollar (\$) here
         const MY_MANUAL_RATES = {
-            BC: { usdSpotPrice: 64200, nairaPerDollar: 1350 },
+            BC: {
