@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Naira Settlement Desk</title>
+    <title>B99 Trading X | Live P2P Naira Desk</title>
     <style>
-        /* Zero external assets. Pure standard CSS optimized for low-bandwidth 2G/3G speeds */
+        /* Zero external assets. Pure standard CSS optimized for low-bandwidth mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -29,25 +29,24 @@
             color: #3b82f6;
         }
         .logo span { color: #ffffff; }
-        h1 { font-size: 26px; margin-bottom: 5px; color: #ffffff; text-align: center;}
-        .desc { color: #9ca3af; font-size: 14px; margin-bottom: 25px; text-align: center; line-height: 1.4; }
+        h1 { font-size: 28px; margin-bottom: 10px; color: #ffffff; text-align: center;}
+        .desc { color: #9ca3af; font-size: 15px; margin-bottom: 25px; text-align: center; line-height: 1.4; }
         .widget {
             background-color: #111827;
             border: 1px solid #1f2937;
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 25px;
         }
         .form-group { margin-bottom: 15px; }
         label {
             display: block;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
             color: #9ca3af;
             margin-bottom: 5px;
         }
-        select, input, textarea {
+        select, input {
             width: 100%;
             background-color: #0b0f19;
             border: 1px solid #1f2937;
@@ -57,7 +56,7 @@
             font-size: 16px;
             outline: none;
         }
-        select:focus, input:focus, textarea:focus { border-color: #3b82f6; }
+        select:focus, input:focus { border-color: #3b82f6; }
         .row { display: flex; gap: 10px; }
         .w-33 { width: 35%; }
         .w-66 { width: 65%; }
@@ -88,17 +87,6 @@
             font-family: monospace;
             background-color: rgba(11,15,25,0.5);
         }
-        .info-note {
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 15px;
-            word-break: break-all;
-        }
-        .info-note strong { color: #ffffff; }
         .btn {
             width: 100%;
             background-color: #25d366;
@@ -112,25 +100,13 @@
             text-align: center;
         }
         .btn:hover { background-color: #128c7e; }
-        
-        /* AI Panel Layout Configuration */
-        .ai-header { font-size: 16px; font-weight: bold; color: #3b82f6; margin-bottom: 10px; }
-        .ai-log { background: #0b0f19; border: 1px solid #1f2937; border-radius: 8px; height: 120px; overflow-y: auto; padding: 10px; font-size: 13px; margin-bottom: 10px; }
-        .msg { margin-bottom: 8px; line-height: 1.3; }
-        .msg.user { color: #60a5fa; text-align: right; }
-        .msg.bot { color: #a7f3d0; text-align: left; }
-        .ai-input-row { display: flex; gap: 5px; }
-        .ai-btn { background: #3b82f6; border: none; color: white; padding: 0 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-        /* Review Desk Configuration */
-        .rev-head { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #ffffff; border-bottom: 1px solid #1f2937; padding-bottom: 5px; }
-        .rev-card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-        .rev-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
-        .rev-name { font-weight: bold; color: #60a5fa; }
-        .rev-stars { color: #fbbf24; }
-        .rev-txt { font-size: 13px; color: #d1d5db; line-height: 1.3; }
-        
-        footer { text-align: center; margin-top: 40px; font-size: 11px; color: #6b7280; line-height: 1.4; }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -142,95 +118,111 @@
     </header>
 
     <div class="container">
-        <h1>Naira Settlement Desk</h1>
-        <p class="desc">B99 Trading X over-the-counter order request calculator. Highly optimized, communication routing framework.</p>
+        <h1>Live P2P Naira Desk</h1>
+        <p class="desc">Real-time B99 Trading X live offer rate conversions. Highly optimized mobile data friendly instant execution model.</p>
 
-        <!-- Settlement Estimator -->
         <div class="widget">
             <form onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
-                    <label>Requested Transaction Action</label>
+                    <label>Transaction Type</label>
                     <select id="tradeType" onchange="calculateTrade()">
-                        <option value="sell">Sell Asset (Receive Naira Transfer)</option>
-                        <option value="buy">Buy Asset (Pay via Naira Transfer)</option>
+                        <option value="sell">Sell Crypto (Receive Naira Transfer)</option>
+                        <option value="buy">Buy Crypto (Pay via Naira)</option>
                     </select>
                 </div>
 
                 <div class="row form-group">
                     <div class="w-33">
-                        <label>Asset Unit</label>
-                        <select id="cryptoType" onchange="updateAssetFields()">
-                            <option value="BC">BC</option>
-                            <option value="Tether">Tether</option>
+                        <label>Asset</label>
+                        <select id="cryptoType" onchange="calculateTrade()">
+                            <option value="BTC">BTC</option>
+                            <option value="USDT">USDT</option>
                         </select>
                     </div>
                     <div class="w-66">
-                        <label>Requested Volume</label>
+                        <label>Amount</label>
                         <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculateTrade()">
-                    </div>
-                </div>
-
-                <!-- Auto Wallet Address Display Field -->
-                <div class="form-group" id="walletContainer">
-                    <label id="walletLabel">B99 Trading X Transfer Destination</label>
-                    <div class="info-note" id="walletAddressNote">
-                        Loading destination...
-                    </div>
-                </div>
-
-                <!-- Settlement Bank Input Blocks -->
-                <div class="row form-group">
-                    <div style="width: 50%;">
-                        <label>Your Bank Name</label>
-                        <input type="text" id="userBankName" placeholder="e.g. OPay, GTBank" required>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>Your Account Number</label>
-                        <input type="number" id="userAccountNum" placeholder="10 Digits" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);" required>
                     </div>
                 </div>
 
                 <div class="banner">
                     <span class="banner-lbl">B99 Trading X Live Offer:</span>
-                    <span id="rateDisplay" class="banner-val">Syncing Live...</span>
+                    <span id="rateDisplay" class="banner-val">0.00</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
-                    <label>Estimated Value Manifest</label>
+                    <label>Estimated Naira Value</label>
                     <div class="crypto-box">
                         <span class="curr-sym">₦</span>
                         <input id="fiatAmount" type="text" readonly class="read-box">
                     </div>
                 </div>
 
-                <button type="submit" class="btn">Talk to management via this link</button>
+                <button type="submit" class="btn">Open WhatsApp Trade Link</button>
             </form>
         </div>
 
-        <!-- AI Assistant Desk Block -->
-        <div class="widget">
-            <div class="ai-header">🤖 Settlement Support AI</div>
-            <div class="ai-log" id="aiLog">
-                <div class="msg bot">Hello! I am the B99 Settlement Desk AI. Ask me about processing times, payment modes, or how to submit transactions.</div>
-            </div>
-            <div class="ai-input-row">
-                <input type="text" id="aiQuery" placeholder="Type: 'rate', 'time', or 'payment'...">
-                <button type="button" class="ai-btn" onclick="askAI()">Ask</button>
-            </div>
-        </div>
+        <footer>
+            <p>&copy; 2026 B99 Trading X. Optimized for ultra-low network performance bandwidth.</p>
+        </footer>
+    </div>
 
-        <!-- Real-Time Feedback & Review Desk -->
-        <div class="widget" id="review">
-            <div class="rev-head">⭐ Real-Time Client Reviews</div>
+    <script>
+        // TARGET WHATSAPP PROTOCOL LINK
+        const WHATSAPP_NUMBER = "2348100812113"; 
+
+        // 🛠️ ADMIN CONTROL PANEL: Change your custom Buy and Sell rates here at will
+        const MY_MANUAL_RATES = {
+            BTC: {
+                buy: 1390,  // What you charge users when they BUY Bitcoin from you
+                sell: 1350  // What you pay users when they SELL Bitcoin to you
+            },
+            USDT: {
+                buy: 1370,       // What you charge users when they BUY USDT from you
+                sell: 1350       // What you pay users when they SELL USDT to you
+            }
+        };
+
+        function calculateTrade() {
+            const tradeType = document.getElementById('tradeType').value; 
+            const cryptoType = document.getElementById('cryptoType').value; 
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            <div style="background:#0b0f19; border:1px solid #1f2937; padding:12px; border-radius:8px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
-                <span style="color:#9ca3af;">Average Customer Rating:</span>
-                <span id="avgRatingDisplay" style="color:#fbbf24; font-weight:bold;">★★★★★ (5.0/5)</span>
-            </div>
+            const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
+            const totalNairaEst = cryptoAmount * currentP2PPrice;
+            
+            document.getElementById('rateDisplay').innerText = "₦" + currentP2PPrice.toLocaleString(undefined, {maximumFractionDigits: 2});
+            document.getElementById('fiatAmount').value = totalNairaEst.toLocaleString(undefined, {maximumFractionDigits: 2});
+        }
 
-            <div id="reviewsBox" style="max-height: 250px; overflow-y: auto;">
-                <!-- Stored or default customer reviews go here -->
-            </div>
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            const tradeType = document.getElementById('tradeType').value;
+            const cryptoType = document.getElementById('cryptoType').value;
+            const cryptoAmount = document.getElementById('cryptoAmount').value;
+            const fiatAmount = document.getElementById('fiatAmount').value;
+            
+            const currentP2PPrice = MY_MANUAL_RATES[cryptoType][tradeType];
+            const displayTradeType = tradeType.toUpperCase();
 
-            <div style="margin-top:20px; border-top:1px solid #1f2937; padding-top:15px;">
-                <label style="margin-bottom:8px;">Submit Real-Time Review or Complaint</label>
+            if(!cryptoAmount || cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const message = `Hello, I want to *${displayTradeType}* Crypto on B99 Trading X.%0A%0A` +
+                            `*Asset:* ${cryptoType}%0A` +
+                            `*Amount:* ${cryptoAmount} ${cryptoType}%0A` +
+                            `*B99 Trading X Live Rate:* ₦${currentP2PPrice.toLocaleString()}%0A` +
+                            `*Total NGN:* ₦${fiatAmount}%0A%0A` +
+                            `Please attend to my trade request right away.`;
+
+            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
+        }
+
+        window.onload = () => { 
+            calculateTrade(); 
+        };
+    </script>
+</body>
+</html>
