@@ -94,7 +94,7 @@
         }
         .star-btn.active { color: #f59e0b; }
         
-        /* Testimonials Section */
+        /* Testimonials Section with Seamless Animations */
         .testimonials-section {
             margin-top: 20px;
             border-top: 1px solid #1f2937;
@@ -107,9 +107,14 @@
             border-radius: 0 6px 6px 0;
             margin-bottom: 10px;
             font-size: 13px;
+            animation: slideIn 0.3s ease-out;
         }
         .t-author { display: block; font-weight: bold; font-size: 11px; color: #60a5fa; margin-top: 4px; }
-        .status-msg { font-size: 12px; color: #9ca3af; font-style: italic; }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* Solid low-data action buttons */
         .btn {
@@ -128,15 +133,13 @@
         }
         .btn-wa { background-color: #25d366; }
         .btn-wa:hover { background-color: #1ea851; }
-        .btn-submit-review { background-color: #1f2937; font-size: 12px; padding: 8px 12px; border: 1px solid #374151; }
-        .btn-submit-review:hover { background-color: #374151; }
-        .btn-tk { background-color: #3b82f6; font-size: 13px; padding: 12px; }
-        .btn-tk:hover { background-color: #2563eb; }
+        .btn-submit-review { background-color: #3b82f6; font-size: 13px; padding: 10px 14px; border: none; transition: background 0.2s; }
+        .btn-submit-review:hover { background-color: #2563eb; }
+        .btn-tk { background-color: #1f2937; font-size: 13px; padding: 12px; border: 1px solid #374151; }
+        .btn-tk:hover { background-color: #374151; }
 
         footer { text-align: center; margin-top: 25px; font-size: 11px; color: #6b7280; }
     </style>
-    <!-- Lightweight Cloud Database Engine Injection -->
-    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
 
@@ -230,8 +233,4 @@
         <div class="testimonials-section">
             <label style="margin-bottom: 10px;">Recent Client Testimonies</label>
             <div id="testimonialsContainer">
-                <div class="status-msg">Connecting to live review stream...</div>
-            </div>
-        </div>
-
-        <footer>
+                <!-- Fallback defaults show instantly while data stream syncs seamlessly -->
