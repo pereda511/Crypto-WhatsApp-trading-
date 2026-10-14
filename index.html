@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Live Desk</title>
+    <title>B99 Trading X | Portal</title>
     <style>
-        /* Core Reset - Optimized for low-bandwidth 2G/3G mobile networks */
+        /* Core Reset - High speed execution configuration */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -22,13 +22,38 @@
             padding: 10px 0;
             border-bottom: 1px solid #1f2937;
             margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logo { font-size: 20px; font-weight: bold; color: #3b82f6; }
+        .logo { font-size: 20px; font-weight: bold; color: #3b82f6; text-decoration: none; }
         .logo span { color: #ffffff; }
+        
+        .user-pill {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #60a5fa;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 11px;
+            margin-left: 8px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Screen Controller Utilities */
+        .auth-screen, .app-screen { display: none; }
+        .active-view { display: block !important; }
+
         h1 { font-size: 22px; margin: 10px 0 5px; color: #ffffff; text-align: center; }
         .desc { color: #9ca3af; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.3; }
         
-        /* Flattened static display board - Low CPU rendering */
         .rate-board {
             background: #111827;
             border: 1px solid #1f2937;
@@ -38,10 +63,8 @@
             font-size: 13px;
         }
         .rate-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        .rate-row:last-child { margin-bottom: 0; }
         .rate-val { font-weight: bold; color: #60a5fa; font-family: monospace; }
 
-        /* Pure vertical stack form layout */
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 11px; font-weight: bold; color: #9ca3af; margin-bottom: 4px; text-transform: uppercase; }
         select, input {
@@ -57,14 +80,14 @@
         }
         select:focus, input:focus { border-color: #3b82f6; }
 
-        .payout-section {
+        .payout-section, .kyc-section {
             border-top: 1px dashed #1f2937;
             padding-top: 15px;
             margin-top: 15px;
         }
         .notice { font-size: 11px; color: #f59e0b; margin-bottom: 10px; display: block; }
+        .badge { background-color: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #60a5fa; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; display: inline-block; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* Solid low-data action buttons */
         .btn {
             width: 100%;
             color: #ffffff;
@@ -81,10 +104,18 @@
         }
         .btn-wa { background-color: #25d366; }
         .btn-wa:hover { background-color: #1ea851; }
-        
-        /* Direct Action Button Style */
         .btn-tk { background-color: #3b82f6; font-size: 13px; padding: 12px; }
         .btn-tk:hover { background-color: #2563eb; }
+        .btn-auth { background-color: #3b82f6; margin-top: 5px; }
+
+        .toggle-link {
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+            margin-top: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
 
         footer { text-align: center; margin-top: 25px; font-size: 11px; color: #6b7280; }
     </style>
@@ -92,159 +123,110 @@
 <body>
 
     <div class="container">
+        <!-- Persistent Lightweight Layout Top Bar Header -->
         <div class="header">
-            <div class="logo">B99 Trading <span>X</span></div>
-        </div>
-
-        <h1>Naira Settlement Disbursement</h1>
-        <p class="desc">Ultra-low network optimized. Secure local settlement lines.</p>
-
-        <!-- Fixed Rate Panel -->
-        <div class="rate-board">
-            <div class="rate-row">
-                <span>Buy Assets Desk:</span>
-                <span class="rate-val">₦1,395 / $1.00</span>
-            </div>
-            <div class="rate-row">
-                <span>Sell Assets Payout:</span>
-                <span class="rate-val">₦1,350 / $1.00</span>
+            <a href="#" class="logo">B99 Trading <span>X</span></a>
+            <div id="userHeaderPill" style="display: none;">
+                <span class="user-pill">👤 <span id="userPillEmail">Guest</span> <button class="logout-btn" onclick="triggerAccountSignout()">Exit</button></span>
             </div>
         </div>
 
-        <form onsubmit="executeOrder(event)">
-            <div class="form-group">
-                <label>Transaction Channel</label>
-                <select id="tradeType" onchange="toggleFields();">
-                    <option value="sell">Sell Asset (Receive Naira Payout)</option>
-                    <option value="buy">Buy Asset (Pay via Naira)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Asset Portfolio</label>
-                <select id="cryptoType">
-                    <option value="BC Assets">BC Assets</option>
-                    <option value="Tether Assets">Tether Assets</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Asset Volume ($ / USD)</label>
-                <input id="cryptoAmount" type="number" step="any" placeholder="0.00">
-            </div>
-
-            <!-- Dynamic Bank Section -->
-            <div id="payoutSection" class="payout-section">
-                <span class="notice">⚠️ Account name must match your legal registration.</span>
+        <!-- ================= VIEW 1: SIGN IN INTERFACE SCREEN ================= -->
+        <div id="loginScreen" class="auth-screen active-view">
+            <h1>Access Trade Terminal</h1>
+            <p class="desc">Log in securely to initialize local settlement disbursement queues.</p>
+            <form onsubmit="handleAccountLogin(event)">
                 <div class="form-group">
-                    <label>Bank Name</label>
-                    <input id="bankName" type="text" placeholder="e.g., GTBank, Access, Zenith">
+                    <label>Account Email</label>
+                    <input type="email" id="loginEmail" required placeholder="name@domain.com">
                 </div>
                 <div class="form-group">
-                    <label>Account Number (10 Digits)</label>
-                    <input id="accNumber" type="number" placeholder="0000000000" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
+                    <label>Security Password</label>
+                    <input type="password" id="loginPass" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-auth">Log In Securely</button>
+                <div class="toggle-link" onclick="switchAuthView('registerScreen')">New to B99? Create secure account profile</div>
+            </form>
+        </div>
+
+        <!-- ================= VIEW 2: SIGN UP INTERFACE SCREEN ================= -->
+        <div id="registerScreen" class="auth-screen">
+            <h1>Create Asset Portfolio</h1>
+            <p class="desc">Register profile credentials to activate secure processing clearing pathways.</p>
+            <form onsubmit="handleAccountSignup(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" required placeholder="name@domain.com">
                 </div>
                 <div class="form-group">
-                    <label>Account Holder Full Name</label>
-                    <input id="accName" type="text" placeholder="As it appears on bank profile">
+                    <label>Create Secure Password</label>
+                    <input type="password" id="regPass" required placeholder="Minimum 6 characters">
+                </div>
+                <button type="submit" class="btn btn-auth">Generate Secure Account</button>
+                <div class="toggle-link" onclick="switchAuthView('loginScreen')">Already registered? Access login terminal</div>
+            </form>
+        </div>
+
+        <!-- ================= VIEW 3: LIVE CORE TRADING ACCOUNT PANEL ================= -->
+        <div id="tradingDeskScreen" class="app-screen">
+            <h1>Naira Settlement Disbursement</h1>
+            <p class="desc">Secure local settlement lines. Real-time manual admin rate lock-ins.</p>
+
+            <div class="rate-board">
+                <div class="rate-row">
+                    <span>Buy Assets Desk:</span>
+                    <span class="rate-val">₦1,395 / $1.00</span>
+                </div>
+                <div class="rate-row">
+                    <span>Sell Assets Payout:</span>
+                    <span class="rate-val">₦1,350 / $1.00</span>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-wa">Complete Trade via WhatsApp</button>
-            
-            <!-- FIXED: Toggles embedded chat window instantly without opening a separate tab -->
-            <button type="button" class="btn btn-tk" onclick="openLiveChat();">Access Live Chat Support Panel</button>
-        </form>
+            <form onsubmit="executeOrder(event)">
+                <div class="form-group">
+                    <label>Transaction Channel</label>
+                    <select id="tradeType" onchange="toggleFields();">
+                        <option value="sell">Sell Asset (Receive Naira Payout)</option>
+                        <option value="buy">Buy Asset (Pay via Naira)</option>
+                    </select>
+                </div>
 
-        <footer>
-            <p>Order Ref: <span id="sysRef" style="font-family: monospace; color: #60a5fa;">B99-GENERATING...</span></p>
-            <p style="margin-top: 5px;">&copy; 2026 B99 Trading X. Data-Friendly Build.</p>
-        </footer>
-    </div>
+                <div class="form-group">
+                    <label>Asset Portfolio</label>
+                    <select id="cryptoType">
+                        <option value="BC Assets">BC Assets</option>
+                        <option value="Tether Assets">Tether Assets</option>
+                    </select>
+                </div>
 
-    <script>
-        const WHATSAPP_NUMBER = "2348100812113"; 
-        const MY_MANUAL_RATES = {
-            "BC Assets": { buy: 1395, sell: 1350 },
-            "Tether Assets": { buy: 1395, sell: 1350 }
-        };
+                <div class="form-group">
+                    <label>Asset Volume ($ / USD)</label>
+                    <input id="cryptoAmount" type="number" step="any" placeholder="0.00">
+                </div>
 
-        function generateRef() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let ref = 'B99-';
-            for (let i = 0; i < 6; i++) { ref += chars.charAt(Math.floor(Math.random() * chars.length)); }
-            document.getElementById('sysRef').innerText = ref;
-            return ref;
-        }
+                <!-- KYC Verification Context Block -->
+                <div id="kycSection" class="kyc-section">
+                    <div class="badge">🛡️ Compliance KYC Verification</div>
+                    <span class="notice">Verification registry parameters must match account details to clear funds.</span>
+                    
+                    <div class="form-group">
+                        <label>Legal Full Name</label>
+                        <input id="kycName" type="text" required placeholder="Firstname Lastname">
+                    </div>
+                    <div class="form-group">
+                        <label>Identity Document Type</label>
+                        <select id="kycDocType">
+                            <option value="NIN Slip">National Identity Number (NIN)</option>
+                            <option value="BVN Direct Verification">Bank Verification Number (BVN)</option>
+                            <option value="Drivers License">Driver's License</option>
+                            <option value="Voters Card">Voter's Card</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Document Serial Identification Number</label>
+                        <input id="kycDocNum" type="text" required placeholder="Enter ID number string">
+                    </div>
+                </div>
 
-        function toggleFields() {
-            const tradeType = document.getElementById('tradeType').value;
-            document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
-        }
-
-        function executeOrder(event) {
-            event.preventDefault();
-            const tradeType = document.getElementById('tradeType').value;
-            const cryptoType = document.getElementById('cryptoType').value;
-            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
-            
-            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
-            const totalNairaValue = cryptoAmount * rate;
-            const ref = document.getElementById('sysRef').innerText;
-
-            if (cryptoAmount <= 0) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            let message = `*B99 TRADING SETTLEMENT*%0A` +
-                          `Ref: ${ref}%0A` +
-                          `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
-                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
-                          `Rate: ₦${rate.toLocaleString()}%0A` +
-                          `Total Settlement Disbursement: ₦${totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}%0A`;
-
-            if (tradeType === 'sell') {
-                const bank = document.getElementById('bankName').value.trim();
-                const num = document.getElementById('accNumber').value.trim();
-                const name = document.getElementById('accName').value.trim();
-
-                if (!bank || !num || !name) {
-                    alert("Please complete bank details.");
-                    return;
-                }
-                message += `--- BANK INFO ---%0ABank: ${bank}%0AAcct No: ${num}%0AName: ${name}%0A`;
-            }
-
-            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
-            generateRef();
-        }
-
-        // NEW: Interface bridge to expand chat overlay inside the viewport frame
-        function openLiveChat() {
-            if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
-                Tawk_API.maximize();
-            } else {
-                alert("Live chat is initializing. Please wait a brief moment and try again.");
-            }
-        }
-
-        window.onload = function() {
-            toggleFields();
-            generateRef();
-        };
-    </script>
-
-    <!-- INTEGRATED EMBEDDED TAWK.TO FRAME SCRIPT -->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        
-        // Forces the bubble to match global layout load rules
-        Tawk_API.onLoad = function(){
-            if(typeof Tawk_API.show === 'function') {
-                Tawk_API.show();
-            }
-        };
-
-        (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                <!-- Domestic Settlement Bank Block Dropdown -->
