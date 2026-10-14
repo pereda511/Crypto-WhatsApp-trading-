@@ -138,16 +138,16 @@
             </div>
 
             <div class="form-group">
-                <label>Naira Amount (₦)</label>
-                <!-- Form fields track numeric inputs for instant calculation -->
-                <input id="fiatAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
+                <label>Asset Volume ($ / USD)</label>
+                <!-- Inputs calculate into total local currency fields instantly -->
+                <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
             </div>
 
             <!-- Instant Real-Time Calculations Box -->
             <div class="ledger-box">
                 <div class="ledger-row">
-                    <span>Total Asset Value ($):</span>
-                    <span id="assetTotal" class="ledger-total">0.00</span>
+                    <span>Total Settlement Disbursement:</span>
+                    <span id="ledgerTotal" class="ledger-total">₦0.00</span>
                 </div>
             </div>
 
@@ -198,42 +198,40 @@
             document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
         }
 
-        // Updated Calculation Logic: Converts Typed Naira directly to Asset Units (USD)
+        // Calculation logic processing outputs explicitly into formatted Naira values
         function calculate() {
             const tradeType = document.getElementById('tradeType').value; 
             const cryptoType = document.getElementById('cryptoType').value; 
-            const fiatAmount = parseFloat(document.getElementById('fiatAmount').value) || 0;
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
             const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const totalNairaValue = cryptoAmount * rate;
             
-            let totalAssetValue = 0;
-            if (rate > 0) {
-                totalAssetValue = fiatAmount / rate;
-            }
-            
-            // Updates display up to 4 decimal places for precision tracking
-            document.getElementById('assetTotal').innerText = totalAssetValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " " + (cryptoType === "BC Assets" ? "BC" : "Tether");
+            document.getElementById('ledgerTotal').innerText = "₦" + totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
         function executeOrder(event) {
             event.preventDefault();
             const tradeType = document.getElementById('tradeType').value;
             const cryptoType = document.getElementById('cryptoType').value;
-            const fiatAmount = parseFloat(document.getElementById('fiatAmount').value) || 0;
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
             const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const totalNairaValue = cryptoAmount * rate;
             const ref = document.getElementById('sysRef').innerText;
 
-            if (fiatAmount <= 0) {
-                alert("Please enter a valid Naira amount.");
+            if (cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
                 return;
             }
-
-            const assetCalculated = fiatAmount / rate;
-            const assetLabel = cryptoType === "BC Assets" ? "BC" : "Tether";
 
             let message = `*B99 TRADING SETTLEMENT*%0A` +
                           `Ref: ${ref}%0A` +
                           `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
-                          `Naira Amount: ₦${fiatAmount.toLocaleString()}%0A` +
+                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
                           `Rate: ₦${rate.toLocaleString()}%0A` +
+                          `Total Settlement Disbursement: ₦${totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}%0A`;
+
+            if (tradeType === 'sell') {
+                const bank = document.getElementById('bankName').value.trim();
+                const num = document.getElementById('accNumber').value.trim();
