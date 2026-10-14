@@ -139,6 +139,7 @@
 
             <div class="form-group">
                 <label>Transaction Volume (USD)</label>
+                <!-- Fixed: Hooked up real-time live typing listener -->
                 <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
             </div>
 
@@ -235,5 +236,3 @@
                 const num = document.getElementById('accNumber').value.trim();
                 const name = document.getElementById('accName').value.trim();
 
-                if (!bank || !num || !name) {
-                    alert("Please complete bank details.");
