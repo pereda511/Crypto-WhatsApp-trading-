@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Portal</title>
+    <title>B99 Trading X | Live Desk</title>
     <style>
-        /* Core Reset - High speed execution configuration */
+        /* Core Reset - Optimized for low-bandwidth 2G/3G mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -22,41 +22,13 @@
             padding: 10px 0;
             border-bottom: 1px solid #1f2937;
             margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        .logo { font-size: 20px; font-weight: bold; color: #3b82f6; text-decoration: none; }
+        .logo { font-size: 20px; font-weight: bold; color: #3b82f6; }
         .logo span { color: #ffffff; }
-        
-        .user-pill {
-            background: #111827;
-            border: 1px solid #1f2937;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #60a5fa;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .logout-btn {
-            background: none;
-            border: none;
-            color: #ef4444;
-            font-size: 11px;
-            cursor: pointer;
-            text-decoration: underline;
-            padding: 0 2px;
-        }
-
-        /* Screen Controller Utilities */
-        .auth-screen, .app-screen { display: none; }
-        .active-view { display: block !important; }
-
         h1 { font-size: 22px; margin: 10px 0 5px; color: #ffffff; text-align: center; }
         .desc { color: #9ca3af; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.3; }
         
+        /* Flattened static display board - Low CPU rendering */
         .rate-board {
             background: #111827;
             border: 1px solid #1f2937;
@@ -66,8 +38,10 @@
             font-size: 13px;
         }
         .rate-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .rate-row:last-child { margin-bottom: 0; }
         .rate-val { font-weight: bold; color: #60a5fa; font-family: monospace; }
 
+        /* Pure vertical stack form layout */
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 11px; font-weight: bold; color: #9ca3af; margin-bottom: 4px; text-transform: uppercase; }
         select, input {
@@ -83,56 +57,14 @@
         }
         select:focus, input:focus { border-color: #3b82f6; }
 
-        /* Phone Row Structure Wrap */
-        .phone-input-wrap {
-            display: flex;
-            background-color: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 6px;
-            align-items: center;
-            padding-left: 12px;
-        }
-        .phone-prefix {
-            color: #9ca3af;
-            font-size: 15px;
-            font-weight: bold;
-            user-select: none;
-            padding-right: 4px;
-        }
-        .phone-input-wrap input {
-            border: none !important;
-            background: transparent !important;
-            padding-left: 4px;
-        }
-
-        /* Auto Code Banner Popup Panel */
-        .code-popup {
-            background-color: rgba(245, 158, 11, 0.1);
-            border: 1px dashed #f59e0b;
-            color: #f59e0b;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 15px;
-            display: none;
-        }
-        .code-popup strong {
-            font-size: 18px;
-            font-family: monospace;
-            letter-spacing: 2px;
-            display: block;
-            margin-top: 4px;
-        }
-
-        .payout-section, .kyc-section {
+        .payout-section {
             border-top: 1px dashed #1f2937;
             padding-top: 15px;
             margin-top: 15px;
         }
         .notice { font-size: 11px; color: #f59e0b; margin-bottom: 10px; display: block; }
-        .badge { background-color: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #60a5fa; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; display: inline-block; margin-bottom: 10px; text-transform: uppercase; }
 
+        /* Solid low-data action buttons */
         .btn {
             width: 100%;
             color: #ffffff;
@@ -149,9 +81,10 @@
         }
         .btn-wa { background-color: #25d366; }
         .btn-wa:hover { background-color: #1ea851; }
+        
+        /* Direct Action Button Style */
         .btn-tk { background-color: #3b82f6; font-size: 13px; padding: 12px; }
         .btn-tk:hover { background-color: #2563eb; }
-        .btn-auth { background-color: #3b82f6; margin-top: 5px; }
 
         footer { text-align: center; margin-top: 25px; font-size: 11px; color: #6b7280; }
     </style>
@@ -160,88 +93,158 @@
 
     <div class="container">
         <div class="header">
-            <a href="#" class="logo" onclick="window.location.reload(); return false;">B99 Trading <span>X</span></a>
-            <div id="userHeaderPill" style="display: none;">
-                <span class="user-pill">👤 +234<span id="userPillPhone">...</span> <button class="logout-btn" onclick="triggerAccountSignout()">Exit</button></span>
+            <div class="logo">B99 Trading <span>X</span></div>
+        </div>
+
+        <h1>Naira Settlement Disbursement</h1>
+        <p class="desc">Ultra-low network optimized. Secure local settlement lines.</p>
+
+        <!-- Fixed Rate Panel -->
+        <div class="rate-board">
+            <div class="rate-row">
+                <span>Buy Assets Desk:</span>
+                <span class="rate-val">₦1,395 / $1.00</span>
+            </div>
+            <div class="rate-row">
+                <span>Sell Assets Payout:</span>
+                <span class="rate-val">₦1,350 / $1.00</span>
             </div>
         </div>
 
-        <!-- ================= FIXED AUTH SCREEN: PHONE OTP ACCESS ================= -->
-        <div id="loginScreen" class="auth-screen active-view">
-            <h1>Access Trade Terminal</h1>
-            <p class="desc">Enter your Nigerian mobile number to instantly generate your secure verification access code.</p>
+        <form onsubmit="executeOrder(event)">
+            <div class="form-group">
+                <label>Transaction Channel</label>
+                <select id="tradeType" onchange="toggleFields();">
+                    <option value="sell">Sell Asset (Receive Naira Payout)</option>
+                    <option value="buy">Buy Asset (Pay via Naira)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Asset Portfolio</label>
+                <select id="cryptoType">
+                    <option value="BC Assets">BC Assets</option>
+                    <option value="Tether Assets">Tether Assets</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Asset Volume ($ / USD)</label>
+                <input id="cryptoAmount" type="number" step="any" placeholder="0.00">
+            </div>
+
+            <!-- Dynamic Bank Section -->
+            <div id="payoutSection" class="payout-section">
+                <span class="notice">⚠️ Account name must match your legal registration.</span>
+                <div class="form-group">
+                    <label>Bank Name</label>
+                    <input id="bankName" type="text" placeholder="e.g., GTBank, Access, Zenith">
+                </div>
+                <div class="form-group">
+                    <label>Account Number (10 Digits)</label>
+                    <input id="accNumber" type="number" placeholder="0000000000" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
+                </div>
+                <div class="form-group">
+                    <label>Account Holder Full Name</label>
+                    <input id="accName" type="text" placeholder="As it appears on bank profile">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-wa">Complete Trade via WhatsApp</button>
             
-            <!-- Dynamic Verification Code Alert System Box -->
-            <div id="codePopupBox" class="code-popup">
-                🔑 SECURE LOGIN CODE GENERATED SUCCESSFULLY:
-                <strong id="generatedCodeDisplay">0000</strong>
-            </div>
+            <!-- FIXED: Toggles embedded chat window instantly without opening a separate tab -->
+            <button type="button" class="btn btn-tk" onclick="openLiveChat();">Access Live Chat Support Panel</button>
+        </form>
 
-            <form id="phoneRequestForm" onsubmit="generateSecureOTP(event)">
-                <div class="form-group">
-                    <label>Nigeria Phone Number</label>
-                    <div class="phone-input-wrap">
-                        <span class="phone-prefix">+234</span>
-                        <input type="number" id="authPhone" required placeholder="e.g., 8100812113" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
-                    </div>
-                </div>
-                <button type="submit" id="requestBtnText" class="btn btn-auth">Generate Secure Access Code</button>
-            </form>
+        <footer>
+            <p>Order Ref: <span id="sysRef" style="font-family: monospace; color: #60a5fa;">B99-GENERATING...</span></p>
+            <p style="margin-top: 5px;">&copy; 2026 B99 Trading X. Data-Friendly Build.</p>
+        </footer>
+    </div>
 
-            <!-- Verification Sub-Layer Box (Hides until code triggers) -->
-            <form id="codeVerifyForm" onsubmit="verifyAccountOTP(event)" style="display: none; margin-top: 15px; border-top: 1px dashed #1f2937; padding-top: 15px;">
-                <div class="form-group">
-                    <label>Enter 4-Digit Generated Code</label>
-                    <input type="number" id="typedCode" required placeholder="0000" oninput="if(this.value.length > 4) this.value = this.value.slice(0,4);">
-                </div>
-                <button type="submit" class="btn btn-wa">Verify Code & Enter Terminal</button>
-            </form>
-        </div>
+    <script>
+        const WHATSAPP_NUMBER = "2348100812113"; 
+        const MY_MANUAL_RATES = {
+            "BC Assets": { buy: 1395, sell: 1350 },
+            "Tether Assets": { buy: 1395, sell: 1350 }
+        };
 
-        <!-- ================= MAIN CORE TRADING VIEW SCREEN ================= -->
-        <div id="tradingDeskScreen" class="app-screen">
-            <h1>Naira Settlement Disbursement</h1>
-            <p class="desc">Secure local settlement lines. Real-time manual admin rate lock-ins.</p>
+        function generateRef() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let ref = 'B99-';
+            for (let i = 0; i < 6; i++) { ref += chars.charAt(Math.floor(Math.random() * chars.length)); }
+            document.getElementById('sysRef').innerText = ref;
+            return ref;
+        }
 
-            <div class="rate-board">
-                <div class="rate-row">
-                    <span>Buy Assets Desk:</span>
-                    <span class="rate-val">₦1,395 / $1.00</span>
-                </div>
-                <div class="rate-row">
-                    <span>Sell Assets Payout:</span>
-                    <span class="rate-val">₦1,350 / $1.00</span>
-                </div>
-            </div>
+        function toggleFields() {
+            const tradeType = document.getElementById('tradeType').value;
+            document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
+        }
 
-            <form onsubmit="executeOrder(event)">
-                <div class="form-group">
-                    <label>Transaction Type</label>
-                    <select id="tradeType" onchange="toggleFields();">
-                        <option value="sell">Sell Asset (Receive Naira Payout)</option>
-                        <option value="buy">Buy Asset (Pay via Naira)</option>
-                    </select>
-                </div>
+        function executeOrder(event) {
+            event.preventDefault();
+            const tradeType = document.getElementById('tradeType').value;
+            const cryptoType = document.getElementById('cryptoType').value;
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
+            
+            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const totalNairaValue = cryptoAmount * rate;
+            const ref = document.getElementById('sysRef').innerText;
 
-                <div class="form-group">
-                    <label>Asset Portfolio</label>
-                    <select id="cryptoType">
-                        <option value="BC Assets">BC Assets</option>
-                        <option value="Tether Assets">Tether Assets</option>
-                    </select>
-                </div>
+            if (cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
 
-                <div class="form-group">
-                    <label>Asset Volume ($ / USD)</label>
-                    <input id="cryptoAmount" type="number" step="any" placeholder="0.00" required>
-                </div>
+            let message = `*B99 TRADING SETTLEMENT*%0A` +
+                          `Ref: ${ref}%0A` +
+                          `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
+                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
+                          `Rate: ₦${rate.toLocaleString()}%0A` +
+                          `Total Settlement Disbursement: ₦${totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}%0A`;
 
-                <!-- KYC Verification Context Block -->
-                <div id="kycSection" class="kyc-section">
-                    <div class="badge">🛡️ Compliance KYC Verification</div>
-                    <span class="notice">Verification registry parameters must match account details to clear funds.</span>
-                    
-                    <div class="form-group">
-                        <label>Legal Full Name</label>
-                        <input id="kycName" type="text" required placeholder="Firstname Lastname">
-                    </div>
+            if (tradeType === 'sell') {
+                const bank = document.getElementById('bankName').value.trim();
+                const num = document.getElementById('accNumber').value.trim();
+                const name = document.getElementById('accName').value.trim();
+
+                if (!bank || !num || !name) {
+                    alert("Please complete bank details.");
+                    return;
+                }
+                message += `--- BANK INFO ---%0ABank: ${bank}%0AAcct No: ${num}%0AName: ${name}%0A`;
+            }
+
+            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
+            generateRef();
+        }
+
+        // NEW: Interface bridge to expand chat overlay inside the viewport frame
+        function openLiveChat() {
+            if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
+                Tawk_API.maximize();
+            } else {
+                alert("Live chat is initializing. Please wait a brief moment and try again.");
+            }
+        }
+
+        window.onload = function() {
+            toggleFields();
+            generateRef();
+        };
+    </script>
+
+    <!-- INTEGRATED EMBEDDED TAWK.TO FRAME SCRIPT -->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        
+        // Forces the bubble to match global layout load rules
+        Tawk_API.onLoad = function(){
+            if(typeof Tawk_API.show === 'function') {
+                Tawk_API.show();
+            }
+        };
+
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
