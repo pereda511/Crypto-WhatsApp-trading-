@@ -36,15 +36,18 @@
             border-radius: 20px;
             font-size: 12px;
             color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .logout-btn {
             background: none;
             border: none;
             color: #ef4444;
             font-size: 11px;
-            margin-left: 8px;
             cursor: pointer;
             text-decoration: underline;
+            padding: 0 2px;
         }
 
         /* Screen Controller Utilities */
@@ -125,7 +128,7 @@
     <div class="container">
         <!-- Persistent Lightweight Layout Top Bar Header -->
         <div class="header">
-            <a href="#" class="logo">B99 Trading <span>X</span></a>
+            <a href="#" class="logo" onclick="window.location.reload(); return false;">B99 Trading <span>X</span></a>
             <div id="userHeaderPill" style="display: none;">
                 <span class="user-pill">👤 <span id="userPillEmail">Guest</span> <button class="logout-btn" onclick="triggerAccountSignout()">Exit</button></span>
             </div>
@@ -185,7 +188,7 @@
 
             <form onsubmit="executeOrder(event)">
                 <div class="form-group">
-                    <label>Transaction Channel</label>
+                    <label>Transaction Type</label>
                     <select id="tradeType" onchange="toggleFields();">
                         <option value="sell">Sell Asset (Receive Naira Payout)</option>
                         <option value="buy">Buy Asset (Pay via Naira)</option>
@@ -202,7 +205,7 @@
 
                 <div class="form-group">
                     <label>Asset Volume ($ / USD)</label>
-                    <input id="cryptoAmount" type="number" step="any" placeholder="0.00">
+                    <input id="cryptoAmount" type="number" step="any" placeholder="0.00" required>
                 </div>
 
                 <!-- KYC Verification Context Block -->
@@ -225,8 +228,3 @@
                     </div>
                     <div class="form-group">
                         <label>Document Serial Identification Number</label>
-                        <input id="kycDocNum" type="text" required placeholder="Enter ID number string">
-                    </div>
-                </div>
-
-                <!-- Domestic Settlement Bank Block Dropdown -->
