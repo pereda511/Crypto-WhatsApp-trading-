@@ -182,8 +182,10 @@
             display: flex; 
             gap: 12px; 
         }
-        .w-33 { width: 35%; }
-        .w-66 { width: 65%; }
+        
+        /* Updated layout widths for clean responsive scaling */
+        .w-33 { width: 35%; min-width: 120px; }
+        .w-66 { width: 65%; flex-grow: 1; }
 
         /* Integrated Safe Real-Time Estimation Ledger Wrap */
         .calculator-block {
@@ -278,11 +280,18 @@
             line-height: 1.6;
         }
 
-        /* Smooth Mobile Layout Adjustments */
-        @media(max-width: 480px) {
+        /* CRITICAL FIXED FIXTURE: Mobile Layout Breathing Code */
+        @media(max-width: 580px) {
             h1 { font-size: 22px; }
             .widget { padding: 16px; }
-            .spread-rate { font-size: 16px; }
+            .spread-rate { font-size: 15px; }
+            .row {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .w-33, .w-66 {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -326,8 +335,3 @@
                         <label>Asset Portfolio</label>
                         <select id="cryptoType" onchange="calculateLedger();">
                             <option value="BC Assets">BC Assets</option>
-                            <option value="Tether Assets">Tether Assets</option>
-                        </select>
-                    </div>
-                    <div class="w-66">
-                        <label>Transaction Volume (USD)</label>
