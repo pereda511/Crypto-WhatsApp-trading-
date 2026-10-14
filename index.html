@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B99 Trading X | Live Desk</title>
     <style>
-        /* Core Reset - No heavy framework or web fonts loaded */
+        /* Core Reset - Optimized for low-bandwidth 2G/3G mobile networks */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0b0f19;
@@ -41,7 +41,7 @@
         .rate-row:last-child { margin-bottom: 0; }
         .rate-val { font-weight: bold; color: #60a5fa; font-family: monospace; }
 
-        /* Pure vertical stack forms - Fixes all hidden/squished elements on mobile */
+        /* Pure vertical stack form layout */
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 11px; font-weight: bold; color: #9ca3af; margin-bottom: 4px; text-transform: uppercase; }
         select, input {
@@ -57,7 +57,7 @@
         }
         select:focus, input:focus { border-color: #3b82f6; }
 
-        /* Integrated Light Math Preview Display */
+        /* Real-Time Live Math Display */
         .ledger-box {
             background: rgba(59, 130, 246, 0.1);
             border: 1px dashed #3b82f6;
@@ -65,7 +65,7 @@
             padding: 12px;
             margin-bottom: 15px;
         }
-        .ledger-row { display: flex; justify-content: space-between; font-size: 14px; }
+        .ledger-row { display: flex; justify-content: space-between; font-size: 14px; align-items: center; }
         .ledger-total { color: #10b981; font-size: 16px; font-weight: bold; font-family: monospace; }
 
         .payout-section {
@@ -75,7 +75,7 @@
         }
         .notice { font-size: 11px; color: #f59e0b; margin-bottom: 10px; display: block; }
 
-        /* Solid low-data operational action buttons */
+        /* Solid low-data action buttons */
         .btn {
             width: 100%;
             color: #ffffff;
@@ -138,16 +138,16 @@
             </div>
 
             <div class="form-group">
-                <label>Transaction Volume (USD)</label>
-                <!-- Fixed: Hooked up real-time live typing listener -->
-                <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
+                <label>Naira Amount (₦)</label>
+                <!-- Form fields track numeric inputs for instant calculation -->
+                <input id="fiatAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
             </div>
 
-            <!-- Seamless Real-Time Calculations Box -->
+            <!-- Instant Real-Time Calculations Box -->
             <div class="ledger-box">
                 <div class="ledger-row">
-                    <span>Total Settlement Disbursement:</span>
-                    <span id="ledgerTotal" class="ledger-total">₦0.00</span>
+                    <span>Total Asset Value ($):</span>
+                    <span id="assetTotal" class="ledger-total">0.00</span>
                 </div>
             </div>
 
@@ -198,41 +198,42 @@
             document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
         }
 
+        // Updated Calculation Logic: Converts Typed Naira directly to Asset Units (USD)
         function calculate() {
             const tradeType = document.getElementById('tradeType').value; 
             const cryptoType = document.getElementById('cryptoType').value; 
-            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
+            const fiatAmount = parseFloat(document.getElementById('fiatAmount').value) || 0;
             
             const rate = MY_MANUAL_RATES[cryptoType][tradeType];
-            const total = cryptoAmount * rate;
             
-            document.getElementById('ledgerTotal').innerText = "₦" + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            let totalAssetValue = 0;
+            if (rate > 0) {
+                totalAssetValue = fiatAmount / rate;
+            }
+            
+            // Updates display up to 4 decimal places for precision tracking
+            document.getElementById('assetTotal').innerText = totalAssetValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " " + (cryptoType === "BC Assets" ? "BC" : "Tether");
         }
 
         function executeOrder(event) {
             event.preventDefault();
             const tradeType = document.getElementById('tradeType').value;
             const cryptoType = document.getElementById('cryptoType').value;
-            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
+            const fiatAmount = parseFloat(document.getElementById('fiatAmount').value) || 0;
             
             const rate = MY_MANUAL_RATES[cryptoType][tradeType];
-            const total = cryptoAmount * rate;
             const ref = document.getElementById('sysRef').innerText;
 
-            if (cryptoAmount <= 0) {
-                alert("Please enter a valid amount.");
+            if (fiatAmount <= 0) {
+                alert("Please enter a valid Naira amount.");
                 return;
             }
+
+            const assetCalculated = fiatAmount / rate;
+            const assetLabel = cryptoType === "BC Assets" ? "BC" : "Tether";
 
             let message = `*B99 TRADING SETTLEMENT*%0A` +
                           `Ref: ${ref}%0A` +
                           `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
-                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
+                          `Naira Amount: ₦${fiatAmount.toLocaleString()}%0A` +
                           `Rate: ₦${rate.toLocaleString()}%0A` +
-                          `Total Settlement Disbursement: ₦${total.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}%0A`;
-
-            if (tradeType === 'sell') {
-                const bank = document.getElementById('bankName').value.trim();
-                const num = document.getElementById('accNumber').value.trim();
-                const name = document.getElementById('accName').value.trim();
-
