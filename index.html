@@ -57,17 +57,6 @@
         }
         select:focus, input:focus { border-color: #3b82f6; }
 
-        /* Real-Time Live Math Display */
-        .ledger-box {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px dashed #3b82f6;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 15px;
-        }
-        .ledger-row { display: flex; justify-content: space-between; font-size: 14px; align-items: center; }
-        .ledger-total { color: #10b981; font-size: 16px; font-weight: bold; font-family: monospace; }
-
         .payout-section {
             border-top: 1px dashed #1f2937;
             padding-top: 15px;
@@ -112,18 +101,18 @@
         <div class="rate-board">
             <div class="rate-row">
                 <span>Buy Assets Desk:</span>
-                <span class="rate-val">₦1,395 / $1.00</span>
+                <span class="rate-val">₦1,395 / \$1.00</span>
             </div>
             <div class="rate-row">
                 <span>Sell Assets Payout:</span>
-                <span class="rate-val">₦1,350 / $1.00</span>
+                <span class="rate-val">₦1,350 / \$1.00</span>
             </div>
         </div>
 
         <form onsubmit="executeOrder(event)">
             <div class="form-group">
                 <label>Transaction Channel</label>
-                <select id="tradeType" onchange="toggleFields(); calculate();">
+                <select id="tradeType" onchange="toggleFields();">
                     <option value="sell">Sell Asset (Receive Naira Payout)</option>
                     <option value="buy">Buy Asset (Pay via Naira)</option>
                 </select>
@@ -131,24 +120,15 @@
 
             <div class="form-group">
                 <label>Asset Portfolio</label>
-                <select id="cryptoType" onchange="calculate();">
+                <select id="cryptoType">
                     <option value="BC Assets">BC Assets</option>
                     <option value="Tether Assets">Tether Assets</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Asset Volume ($ / USD)</label>
-                <!-- Inputs calculate into total local currency fields instantly -->
-                <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
-            </div>
-
-            <!-- Instant Real-Time Calculations Box -->
-            <div class="ledger-box">
-                <div class="ledger-row">
-                    <span>Total Settlement Disbursement:</span>
-                    <span id="ledgerTotal" class="ledger-total">₦0.00</span>
-                </div>
+                <label>Asset Volume (\$ / USD)</label>
+                <input id="cryptoAmount" type="number" step="any" placeholder="0.00">
             </div>
 
             <!-- Dynamic Bank Section -->
@@ -198,18 +178,6 @@
             document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
         }
 
-        // Calculation logic processing outputs explicitly into formatted Naira values
-        function calculate() {
-            const tradeType = document.getElementById('tradeType').value; 
-            const cryptoType = document.getElementById('cryptoType').value; 
-            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
-            
-            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
-            const totalNairaValue = cryptoAmount * rate;
-            
-            document.getElementById('ledgerTotal').innerText = "₦" + totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
         function executeOrder(event) {
             event.preventDefault();
             const tradeType = document.getElementById('tradeType').value;
@@ -235,3 +203,33 @@
             if (tradeType === 'sell') {
                 const bank = document.getElementById('bankName').value.trim();
                 const num = document.getElementById('accNumber').value.trim();
+                const name = document.getElementById('accName').value.trim();
+
+                if (!bank || !num || !name) {
+                    alert("Please complete bank details.");
+                    return;
+                }
+                message += `--- BANK INFO ---%0ABank: ${bank}%0AAcct No: ${num}%0AName: ${name}%0A`;
+            }
+
+            window.open(`https://wa.me{WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            generateRef();
+        }
+
+        window.onload = function() {
+            toggleFields();
+            generateRef();
+        };
+    </script>
+
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script");
+        s1.async=true; s1.src='https://tawk.to';
+        s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+</body>
+</html>
