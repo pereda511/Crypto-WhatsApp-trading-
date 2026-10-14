@@ -83,6 +83,48 @@
         }
         select:focus, input:focus { border-color: #3b82f6; }
 
+        /* Phone Row Structure Wrap */
+        .phone-input-wrap {
+            display: flex;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 6px;
+            align-items: center;
+            padding-left: 12px;
+        }
+        .phone-prefix {
+            color: #9ca3af;
+            font-size: 15px;
+            font-weight: bold;
+            user-select: none;
+            padding-right: 4px;
+        }
+        .phone-input-wrap input {
+            border: none !important;
+            background: transparent !important;
+            padding-left: 4px;
+        }
+
+        /* Auto Code Banner Popup Panel */
+        .code-popup {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px dashed #f59e0b;
+            color: #f59e0b;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .code-popup strong {
+            font-size: 18px;
+            font-family: monospace;
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 4px;
+        }
+
         .payout-section, .kyc-section {
             border-top: 1px dashed #1f2937;
             padding-top: 15px;
@@ -111,66 +153,52 @@
         .btn-tk:hover { background-color: #2563eb; }
         .btn-auth { background-color: #3b82f6; margin-top: 5px; }
 
-        .toggle-link {
-            text-align: center;
-            font-size: 13px;
-            color: #9ca3af;
-            margin-top: 12px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
         footer { text-align: center; margin-top: 25px; font-size: 11px; color: #6b7280; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Persistent Lightweight Layout Top Bar Header -->
         <div class="header">
             <a href="#" class="logo" onclick="window.location.reload(); return false;">B99 Trading <span>X</span></a>
             <div id="userHeaderPill" style="display: none;">
-                <span class="user-pill">👤 <span id="userPillEmail">Guest</span> <button class="logout-btn" onclick="triggerAccountSignout()">Exit</button></span>
+                <span class="user-pill">👤 +234<span id="userPillPhone">...</span> <button class="logout-btn" onclick="triggerAccountSignout()">Exit</button></span>
             </div>
         </div>
 
-        <!-- ================= VIEW 1: SIGN IN INTERFACE SCREEN ================= -->
+        <!-- ================= FIXED AUTH SCREEN: PHONE OTP ACCESS ================= -->
         <div id="loginScreen" class="auth-screen active-view">
             <h1>Access Trade Terminal</h1>
-            <p class="desc">Log in securely to initialize local settlement disbursement queues.</p>
-            <form onsubmit="handleAccountLogin(event)">
+            <p class="desc">Enter your Nigerian mobile number to instantly generate your secure verification access code.</p>
+            
+            <!-- Dynamic Verification Code Alert System Box -->
+            <div id="codePopupBox" class="code-popup">
+                🔑 SECURE LOGIN CODE GENERATED SUCCESSFULLY:
+                <strong id="generatedCodeDisplay">0000</strong>
+            </div>
+
+            <form id="phoneRequestForm" onsubmit="generateSecureOTP(event)">
                 <div class="form-group">
-                    <label>Account Email</label>
-                    <input type="email" id="loginEmail" required placeholder="name@domain.com">
+                    <label>Nigeria Phone Number</label>
+                    <div class="phone-input-wrap">
+                        <span class="phone-prefix">+234</span>
+                        <input type="number" id="authPhone" required placeholder="e.g., 8100812113" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
+                    </div>
                 </div>
+                <button type="submit" id="requestBtnText" class="btn btn-auth">Generate Secure Access Code</button>
+            </form>
+
+            <!-- Verification Sub-Layer Box (Hides until code triggers) -->
+            <form id="codeVerifyForm" onsubmit="verifyAccountOTP(event)" style="display: none; margin-top: 15px; border-top: 1px dashed #1f2937; padding-top: 15px;">
                 <div class="form-group">
-                    <label>Security Password</label>
-                    <input type="password" id="loginPass" required placeholder="••••••••">
+                    <label>Enter 4-Digit Generated Code</label>
+                    <input type="number" id="typedCode" required placeholder="0000" oninput="if(this.value.length > 4) this.value = this.value.slice(0,4);">
                 </div>
-                <button type="submit" class="btn btn-auth">Log In Securely</button>
-                <div class="toggle-link" onclick="switchAuthView('registerScreen')">New to B99? Create secure account profile</div>
+                <button type="submit" class="btn btn-wa">Verify Code & Enter Terminal</button>
             </form>
         </div>
 
-        <!-- ================= VIEW 2: SIGN UP INTERFACE SCREEN ================= -->
-        <div id="registerScreen" class="auth-screen">
-            <h1>Create Asset Portfolio</h1>
-            <p class="desc">Register profile credentials to activate secure processing clearing pathways.</p>
-            <form onsubmit="handleAccountSignup(event)">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="regEmail" required placeholder="name@domain.com">
-                </div>
-                <div class="form-group">
-                    <label>Create Secure Password</label>
-                    <input type="password" id="regPass" required placeholder="Minimum 6 characters">
-                </div>
-                <button type="submit" class="btn btn-auth">Generate Secure Account</button>
-                <div class="toggle-link" onclick="switchAuthView('loginScreen')">Already registered? Access login terminal</div>
-            </form>
-        </div>
-
-        <!-- ================= VIEW 3: LIVE CORE TRADING ACCOUNT PANEL ================= -->
+        <!-- ================= MAIN CORE TRADING VIEW SCREEN ================= -->
         <div id="tradingDeskScreen" class="app-screen">
             <h1>Naira Settlement Disbursement</h1>
             <p class="desc">Secure local settlement lines. Real-time manual admin rate lock-ins.</p>
@@ -217,14 +245,3 @@
                         <label>Legal Full Name</label>
                         <input id="kycName" type="text" required placeholder="Firstname Lastname">
                     </div>
-                    <div class="form-group">
-                        <label>Identity Document Type</label>
-                        <select id="kycDocType">
-                            <option value="NIN Slip">National Identity Number (NIN)</option>
-                            <option value="BVN Direct Verification">Bank Verification Number (BVN)</option>
-                            <option value="Drivers License">Driver's License</option>
-                            <option value="Voters Card">Voter's Card</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Document Serial Identification Number</label>
