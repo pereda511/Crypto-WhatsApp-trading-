@@ -3,335 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B99 Trading X | Premium Institutional Settlement Desk</title>
+    <title>B99 Trading X | Live Desk</title>
     <style>
-        /* Modern CSS Variables & Reset Architecture */
-        :root {
-            --bg-main: #060b13;
-            --bg-card: #0f172a;
-            --bg-input: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --brand-blue: #3b82f6;
-            --brand-green: #10b981;
-            --brand-accent: #60a5fa;
-            --border-color: #334155;
-            --neon-glow: rgba(59, 130, 246, 0.15);
-        }
-
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
+        /* Core Reset - No heavy framework or web fonts loaded */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            padding-bottom: 60px;
-            line-height: 1.5;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 10px;
         }
-
-        /* Top Security Header Navigation */
-        header {
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            padding: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-wrap {
-            max-width: 650px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--brand-blue);
-            letter-spacing: -0.5px;
-        }
-
-        .logo span { 
-            color: var(--text-primary); 
-        }
-
-        .secure-badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--brand-green);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
         .container {
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 24px 16px;
-        }
-
-        h1 { 
-            font-size: 26px; 
-            font-weight: 800;
-            margin-bottom: 6px; 
-            color: var(--text-primary); 
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .desc { 
-            color: var(--text-secondary); 
-            font-size: 14px; 
-            margin-bottom: 24px; 
-            text-align: center; 
             max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
         }
-
-        /* Institutional Spread Board Layout */
-        .spread-board {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        .spread-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 12px;
-            border-radius: 10px;
+        .header {
             text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1f2937;
+            margin-bottom: 15px;
         }
-
-        .spread-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+        .logo { font-size: 20px; font-weight: bold; color: #3b82f6; }
+        .logo span { color: #ffffff; }
+        h1 { font-size: 22px; margin: 10px 0 5px; color: #ffffff; text-align: center; }
+        .desc { color: #9ca3af; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.3; }
+        
+        /* Flattened static display board - Low CPU rendering */
+        .rate-board {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
         }
+        .rate-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .rate-row:last-child { margin-bottom: 0; }
+        .rate-val { font-weight: bold; color: #60a5fa; font-family: monospace; }
 
-        .spread-rate {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--brand-accent);
-            font-family: monospace;
-        }
-
-        /* Centralized Trading Processing Engine Widget */
-        .widget {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .form-group { 
-            margin-bottom: 18px; 
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-        }
-
+        /* Pure vertical stack forms - Fixes all hidden/squished elements on mobile */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #9ca3af; margin-bottom: 4px; text-transform: uppercase; }
         select, input {
             width: 100%;
-            background-color: var(--bg-main);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px;
-            color: var(--text-primary);
-            font-size: 16px;
-            font-weight: 500;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 6px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 15px;
             outline: none;
-            transition: all 0.2s ease;
+            display: block;
         }
+        select:focus, input:focus { border-color: #3b82f6; }
 
-        select:focus, input:focus { 
-            border-color: var(--brand-blue); 
-            box-shadow: 0 0 0 3px var(--neon-glow);
+        /* Integrated Light Math Preview Display */
+        .ledger-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px dashed #3b82f6;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
         }
+        .ledger-row { display: flex; justify-content: space-between; font-size: 14px; }
+        .ledger-total { color: #10b981; font-size: 16px; font-weight: bold; font-family: monospace; }
 
-        .row { 
-            display: flex; 
-            gap: 12px; 
-        }
-        
-        /* Updated layout widths for clean responsive scaling */
-        .w-33 { width: 35%; min-width: 120px; }
-        .w-66 { width: 65%; flex-grow: 1; }
-
-        /* Integrated Safe Real-Time Estimation Ledger Wrap */
-        .calculator-block {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px;
-            margin-top: 8px;
-            margin-bottom: 18px;
-        }
-
-        .calc-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            padding: 4px 0;
-        }
-
-        .calc-label { color: var(--text-secondary); }
-        .calc-value { font-weight: 700; font-family: monospace; }
-        .calc-total { color: var(--brand-green); font-size: 18px; }
-
-        /* System Verification Alerts */
-        .compliance-notice {
-            font-size: 12px;
-            color: var(--text-secondary);
-            background: rgba(245, 158, 11, 0.05);
-            border: 1px solid rgba(245, 158, 11, 0.15);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-        }
-
-        /* Payout Structural Dynamic Wrapper */
         .payout-section {
-            border-top: 1px dashed var(--border-color);
-            margin-top: 22px;
-            padding-top: 18px;
+            border-top: 1px dashed #1f2937;
+            padding-top: 15px;
+            margin-top: 15px;
         }
+        .notice { font-size: 11px; color: #f59e0b; margin-bottom: 10px; display: block; }
 
-        /* Core Execution Channels Buttons */
-        .btn-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
+        /* Solid low-data operational action buttons */
         .btn {
             width: 100%;
             color: #ffffff;
             border: none;
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-whatsapp {
-            background-color: #25d366;
-        }
-
-        .btn-whatsapp:hover { 
-            background-color: #1ea851; 
-        }
-
-        .btn-tawk {
-            background-color: var(--brand-blue);
-            font-size: 14px;
-            padding: 12px;
-        }
-
-        .btn-tawk:hover {
-            background-color: #2563eb;
-        }
-
-        footer {
             text-align: center;
-            margin-top: 40px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.6;
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
         }
+        .btn-wa { background-color: #25d366; }
+        .btn-wa:hover { background-color: #1ea851; }
+        .btn-tk { background-color: #3b82f6; font-size: 13px; padding: 10px; }
+        .btn-tk:hover { background-color: #2563eb; }
 
-        /* CRITICAL FIXED FIXTURE: Mobile Layout Breathing Code */
-        @media(max-width: 580px) {
-            h1 { font-size: 22px; }
-            .widget { padding: 16px; }
-            .spread-rate { font-size: 15px; }
-            .row {
-                flex-direction: column;
-                gap: 14px;
-            }
-            .w-33, .w-66 {
-                width: 100%;
-            }
-        }
+        footer { text-align: center; margin-top: 25px; font-size: 11px; color: #6b7280; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-wrap">
-            <div class="logo">B99 Trading <span>X</span></div>
-            <div class="secure-badge">🔒 256-Bit SSL Secured</div>
-        </div>
-    </header>
-
     <div class="container">
-        <h1>Naira Settlement Disbursement</h1>
-        <p class="desc">Secure, institutional-grade high-volume asset conversion panel. Trades lock securely via distributed settlement clearing lines.</p>
+        <div class="header">
+            <div class="logo">B99 Trading <span>X</span></div>
+        </div>
 
-        <!-- Live Instant Spread Notice Board -->
-        <div class="spread-board">
-            <div class="spread-card">
-                <div class="spread-label">Buy Assets Desk</div>
-                <div class="spread-rate">₦1,395 / $1.00</div>
+        <h1>Naira Settlement Disbursement</h1>
+        <p class="desc">Ultra-low network optimized. Secure local settlement lines.</p>
+
+        <!-- Fixed Rate Panel -->
+        <div class="rate-board">
+            <div class="rate-row">
+                <span>Buy Assets Desk:</span>
+                <span class="rate-val">₦1,395 / $1.00</span>
             </div>
-            <div class="spread-card">
-                <div class="spread-label">Sell Assets Payout</div>
-                <div class="spread-rate">₦1,350 / $1.00</div>
+            <div class="rate-row">
+                <span>Sell Assets Payout:</span>
+                <span class="rate-val">₦1,350 / $1.00</span>
             </div>
         </div>
 
-        <div class="widget">
-            <form onsubmit="executeOrderChannel(event)">
-                <div class="form-group">
-                    <label>Transaction Channel</label>
-                    <select id="tradeType" onchange="togglePayoutFields(); calculateLedger();">
-                        <option value="sell">Sell Asset (Receive Naira Transfer Payout)</option>
-                        <option value="buy">Buy Asset (Disburse Funding via Naira)</option>
-                    </select>
-                </div>
+        <form onsubmit="executeOrder(event)">
+            <div class="form-group">
+                <label>Transaction Channel</label>
+                <select id="tradeType" onchange="toggleFields(); calculate();">
+                    <option value="sell">Sell Asset (Receive Naira Payout)</option>
+                    <option value="buy">Buy Asset (Pay via Naira)</option>
+                </select>
+            </div>
 
-                <div class="row form-group">
-                    <div class="w-33">
-                        <label>Asset Portfolio</label>
-                        <select id="cryptoType" onchange="calculateLedger();">
-                            <option value="BC Assets">BC Assets</option>
+            <div class="form-group">
+                <label>Asset Portfolio</label>
+                <select id="cryptoType" onchange="calculate();">
+                    <option value="BC Assets">BC Assets</option>
+                    <option value="Tether Assets">Tether Assets</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Transaction Volume (USD)</label>
+                <input id="cryptoAmount" type="number" step="any" placeholder="0.00" oninput="calculate();">
+            </div>
+
+            <!-- Seamless Real-Time Calculations Box -->
+            <div class="ledger-box">
+                <div class="ledger-row">
+                    <span>Total Settlement Disbursement:</span>
+                    <span id="ledgerTotal" class="ledger-total">₦0.00</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Bank Section -->
+            <div id="payoutSection" class="payout-section">
+                <span class="notice">⚠️ Account name must match your legal registration.</span>
+                <div class="form-group">
+                    <label>Bank Name</label>
+                    <input id="bankName" type="text" placeholder="e.g., GTBank, Access, Zenith">
+                </div>
+                <div class="form-group">
+                    <label>Account Number (10 Digits)</label>
+                    <input id="accNumber" type="number" placeholder="0000000000" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
+                </div>
+                <div class="form-group">
+                    <label>Account Holder Full Name</label>
+                    <input id="accName" type="text" placeholder="As it appears on bank profile">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-wa">Complete Trade via WhatsApp</button>
+            <a href="https://tawk.to" target="_blank" class="btn btn-tk">Access Live Chat Support Panel</a>
+        </form>
+
+        <footer>
+            <p>Order Ref: <span id="sysRef" style="font-family: monospace; color: #60a5fa;">B99-GENERATING...</span></p>
+            <p style="margin-top: 5px;">&copy; 2026 B99 Trading X. Data-Friendly Build.</p>
+        </footer>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMBER = "2348100812113"; 
+        const MY_MANUAL_RATES = {
+            "BC Assets": { buy: 1395, sell: 1350 },
+            "Tether Assets": { buy: 1395, sell: 1350 }
+        };
+
+        function generateRef() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let ref = 'B99-';
+            for (let i = 0; i < 6; i++) { ref += chars.charAt(Math.floor(Math.random() * chars.length)); }
+            document.getElementById('sysRef').innerText = ref;
+            return ref;
+        }
+
+        function toggleFields() {
+            const tradeType = document.getElementById('tradeType').value;
+            document.getElementById('payoutSection').style.display = (tradeType === 'sell') ? 'block' : 'none';
+        }
+
+        function calculate() {
+            const tradeType = document.getElementById('tradeType').value; 
+            const cryptoType = document.getElementById('cryptoType').value; 
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
+            
+            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const total = cryptoAmount * rate;
+            
+            document.getElementById('ledgerTotal').innerText = "₦" + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function executeOrder(event) {
+            event.preventDefault();
+            const tradeType = document.getElementById('tradeType').value;
+            const cryptoType = document.getElementById('cryptoType').value;
+            const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
+            
+            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const total = cryptoAmount * rate;
+            const ref = document.getElementById('sysRef').innerText;
+
+            if (cryptoAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            let message = `*B99 TRADING SETTLEMENT*%0A` +
+                          `Ref: ${ref}%0A` +
+                          `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
+                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
+                          `Rate: ₦${rate.toLocaleString()}%0A` +
+                          `Total Settlement Disbursement: ₦${total.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}%0A`;
+
+            if (tradeType === 'sell') {
+                const bank = document.getElementById('bankName').value.trim();
+                const num = document.getElementById('accNumber').value.trim();
+                const name = document.getElementById('accName').value.trim();
+
+                if (!bank || !num || !name) {
+                    alert("Please complete bank details.");
