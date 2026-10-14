@@ -169,6 +169,12 @@
             "Tether Assets": { buy: 1395, sell: 1350 }
         };
 
+        // Initialize unique tracking reference on window layout completion
+        window.onload = function() {
+            generateRef();
+            toggleFields();
+        };
+
         function generateRef() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let ref = 'B99-';
@@ -188,63 +194,53 @@
             const cryptoType = document.getElementById('cryptoType').value;
             const cryptoAmount = parseFloat(document.getElementById('cryptoAmount').value) || 0;
             
-            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
-            const totalNairaValue = cryptoAmount * rate;
-            const ref = document.getElementById('sysRef').innerText;
-
             if (cryptoAmount <= 0) {
                 alert("Please enter a valid amount.");
                 return;
             }
 
-            let message = `*B99 TRADING SETTLEMENT*%0A` +
-                          `Ref: ${ref}%0A` +
-                          `Action: ${tradeType.toUpperCase()} ${cryptoType}%0A` +
-                          `Volume: $${cryptoAmount.toLocaleString()}%0A` +
-                          `Rate: ₦${rate.toLocaleString()}%0A` +
-                          `Total Settlement Disbursement: ₦${totalNairaValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}%0A`;
+            const rate = MY_MANUAL_RATES[cryptoType][tradeType];
+            const totalNairaValue = cryptoAmount * rate;
+            const ref = document.getElementById('sysRef').innerText;
+
+            let message = `*B99 TRADING SETTLEMENT*\n` +
+                          `Ref: ${ref}\n` +
+                          `Action: ${tradeType.toUpperCase()} ${cryptoType}\n` +
+                          `Volume: $${cryptoAmount.toFixed(2)}\n` +
+                          `Rate: ₦${rate.toLocaleString()}\n` +
+                          `Total Settlement: ₦${totalNairaValue.toLocaleString()}\n`;
 
             if (tradeType === 'sell') {
-                const bank = document.getElementById('bankName').value.trim();
-                const num = document.getElementById('accNumber').value.trim();
-                const name = document.getElementById('accName').value.trim();
+                const bankName = document.getElementById('bankName').value.trim();
+                const accNumber = document.getElementById('accNumber').value.trim();
+                const accName = document.getElementById('accName').value.trim();
 
-                if (!bank || !num || !name) {
-                    alert("Please complete bank details.");
+                if (!bankName || accNumber.length !== 10 || !accName) {
+                    alert("Please fill in valid 10-digit bank routing options.");
                     return;
                 }
-                message += `--- BANK INFO ---%0ABank: ${bank}%0AAcct No: ${num}%0AName: ${name}%0A`;
+                message += `\n*PAYOUT SETTLEMENT ROUTE:*\nBank: ${bankName}\nAcct No: ${accNumber}\nAcct Name: ${accName}`;
             }
 
-            window.open(`https://wa.me/2348100812113?text=${message}`, '_blank');
-            generateRef();
+            window.location.href = `https://wa.me{WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
         }
 
-        // NEW: Interface bridge to expand chat overlay inside the viewport frame
+        // Activates the embedded Tawk widget on screen via API call triggers
         function openLiveChat() {
-            if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
+            if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
                 Tawk_API.maximize();
             } else {
-                alert("Live chat is initializing. Please wait a brief moment and try again.");
+                alert("Live Support Desk is connecting in the background. Please try again in a brief second.");
             }
         }
-
-        window.onload = function() {
-            toggleFields();
-            generateRef();
-        };
     </script>
 
-    <!-- INTEGRATED EMBEDDED TAWK.TO FRAME SCRIPT -->
+    <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        
-        // Forces the bubble to match global layout load rules
-        Tawk_API.onLoad = function(){
-            if(typeof Tawk_API.show === 'function') {
-                Tawk_API.show();
-            }
-        };
-
         (function(){
         var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://tawk.to';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
